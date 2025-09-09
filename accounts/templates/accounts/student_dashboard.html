@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+</head>
+<body>
+    <h2>Welcome Student, {{ user.username }}</h2>
+    <p>You can access lessons, track progress, and interact with peers.</p>
+    <a href="{% url 'accounts:logout' %}">Logout</a>
+
+</body>
+</html>
