@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Courses | English Learning App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c5282;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: #4299e1;
+            font-size: 28px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #4299e1;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #4299e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .btn-primary {
+            background-color: #4299e1;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3182ce;
+        }
+        
+        .btn-danger {
+            background-color: #e53e3e;
+            color: white;
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c53030;
+        }
+        
+        .btn-outline {
+            border: 2px solid #4299e1;
+            color: #4299e1;
+            background-color: transparent;
+        }
+        
+        .btn-outline:hover {
+            background-color: #4299e1;
+            color: white;
+        }
+        
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 40px 0;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 32px;
+            color: #2d3748;
+        }
+        
+        /* Course Grid */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .course-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-image {
+            height: 180px;
+            background-color: #ebf8ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4299e1;
+            font-size: 48px;
+        }
+        
+        .course-content {
+            padding: 20px;
+        }
+        
+        .course-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        .course-level {
+            background-color: #edf2f7;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        
+        .course-category {
+            background-color: #e6fffa;
+            color: #319795;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        
+        .course-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .course-actions a {
+            text-decoration: none;
+            color: #4299e1;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+        
+        .course-actions a:hover {
+            color: #3182ce;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .admin-actions a {
+            color: #4299e1;
+            font-size: 14px;
+        }
+        
+        .admin-actions a:hover {
+            color: #3182ce;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .empty-state i {
+            font-size: 64px;
+            color: #cbd5e0;
+            margin-bottom: 20px;
+        }
+        
+        .empty-state h3 {
+            font-size: 24px;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        
+        .empty-state p {
+            color: #718096;
+            margin-bottom: 20px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #2d3748;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-links a {
+            color: #cbd5e0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #4299e1;
+        }
+        
+        .copyright {
+            color: #a0aec0;
+            font-size: 14px;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+            }
+            
+            nav ul li {
+                margin: 5px 0;
+            }
+            
+            .user-menu {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-globe-americas"></i>
+                English Learning App
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'learning:course_list' %}" class="active">Courses</a></li>
+                    <li><a href="#">Resources</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </nav>
+            <div class="user-menu">
+                <div class="user-info">
+                    <div class="user-avatar">{{ user.email|make_list|first|upper }}</div>
+                    <span>{{ user.email }}</span>
+                </div>
+                <a href="{% url 'accounts:logout' %}" class="btn btn-outline">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">All Courses</h1>
+                {% if user.role in "TEACHER ADMIN" or user.is_superuser %}
+                    <a href="{% url 'learning:create_course' %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Course
+                    </a>
+                {% endif %}
+            </div>
+            
+            {% if courses %}
+                <div class="courses-grid">
+                    {% for course in courses %}
+                        <div class="course-card">
+                            <div class="course-image">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <div class="course-content">
+                                <h3 class="course-title">{{ course.title }}</h3>
+                                <div class="course-meta">
+                                    <span class="course-level">{{ course.skill_level }}</span>
+                                    <span class="course-category">{{ course.category }}</span>
+                                </div>
+                                <div class="course-actions">
+                                    <a href="{% url 'learning:lesson_list' course.id %}">
+                                        <i class="fas fa-play-circle"></i> View Lessons
+                                    </a>
+                                    {% if user.role in "TEACHER ADMIN" or user.is_superuser %}
+                                        <div class="admin-actions">
+                                            <a href="{% url 'learning:course_edit' course.id %}">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
+                                            <form action="{% url 'learning:course_delete' course.id %}" method="post" style="display:inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this course?')">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-book-open"></i>
+                    <h3>No courses available</h3>
+                    <p>There are no courses available at the moment. Check back later or create a new course if you have permission.</p>
+                    {% if user.role in "TEACHER ADMIN" or user.is_superuser %}
+                        <a href="{% url 'learning:create_course' %}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Create Your First Course
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">Home</a>
+                <a href="#">Courses</a>
+                <a href="#">Resources</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+            <div class="copyright">
+                &copy; 2023 English Learning App. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

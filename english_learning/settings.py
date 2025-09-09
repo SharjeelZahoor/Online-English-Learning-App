@@ -47,6 +47,8 @@ INSTALLED_APPS = [
 
     # Local apps
     'accounts',
+    'learning',
+    'core',
 ]
 
 # Site ID for allauth
