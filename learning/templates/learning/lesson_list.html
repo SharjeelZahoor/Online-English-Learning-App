@@ -3,463 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lessons | English Learning App</title>
+    <title>{{ lesson.title }} | English Learning App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f8fafc;
-            color: #334155;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            background: #f0f4f8;
+            margin: 0;
+            color: #2d3748;
         }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Header Styles */
+
         header {
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-container {
+            background: linear-gradient(135deg, #3182ce, #2b6cb0);
+            color: white;
+            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
         }
-        
+
         .logo {
+            font-size: 22px;
+            font-weight: bold;
             display: flex;
             align-items: center;
-            font-size: 24px;
-            font-weight: 700;
-            color: #2c5282;
         }
-        
         .logo i {
             margin-right: 10px;
-            color: #4299e1;
+            color: #ebf8ff;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav ul li a {
+            color: #edf2f7;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        nav ul li a:hover {
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .lesson-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .lesson-header {
+            background: linear-gradient(135deg, #63b3ed, #3182ce);
+            padding: 40px 20px;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        .lesson-header h1 {
+            margin: 0;
             font-size: 28px;
         }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        nav ul li {
-            margin-left: 25px;
-        }
-        
-        nav ul li a {
-            text-decoration: none;
-            color: #4a5568;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        nav ul li a:hover {
-            color: #4299e1;
-        }
-        
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #4299e1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: inline-block;
-            cursor: pointer;
-            border: none;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        .btn-primary {
-            background-color: #4299e1;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: #3182ce;
-        }
-        
-        .btn-outline {
-            border: 2px solid #4299e1;
-            color: #4299e1;
-            background-color: transparent;
-        }
-        
-        .btn-outline:hover {
-            background-color: #4299e1;
-            color: white;
-        }
-        
-        /* Main Content */
-        main {
-            flex: 1;
-            padding: 40px 0;
-        }
-        
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .page-title {
-            font-size: 32px;
-            color: #2d3748;
-        }
-        
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
+        .lesson-meta {
+            margin-top: 12px;
             font-size: 14px;
-            color: #718096;
+            opacity: 0.9;
         }
-        
-        .breadcrumb a {
-            color: #4299e1;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .breadcrumb a:hover {
-            color: #3182ce;
-        }
-        
-        .breadcrumb i {
-            margin: 0 10px;
-            font-size: 12px;
-        }
-        
-        /* Lesson Grid */
-        .lessons-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-        }
-        
-        .lesson-card {
-            background-color: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .lesson-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .lesson-image {
-            height: 180px;
-            background-color: #ebf8ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #4299e1;
-            font-size: 48px;
-        }
-        
+
         .lesson-content {
-            padding: 20px;
+            padding: 25px;
+            line-height: 1.7;
         }
-        
-        .lesson-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 15px;
+
+        .lesson-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
-        
-        .lesson-description {
-            color: #4a5568;
+
+        .media-section {
+            padding: 20px 25px;
+            background: #f7fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+        .media-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
             margin-bottom: 20px;
-            line-height: 1.5;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
         }
-        
+        .media-card:hover {
+            transform: translateY(-5px);
+        }
+        .media-card h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #2b6cb0;
+        }
+
+        iframe, audio {
+            width: 100%;
+            border-radius: 8px;
+        }
+
         .lesson-actions {
+            padding: 20px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-        }
-        
-        .lesson-actions a {
-            text-decoration: none;
-            color: #4299e1;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: color 0.3s;
-        }
-        
-        .lesson-actions a:hover {
-            color: #3182ce;
-        }
-        
-        .admin-actions {
-            display: flex;
+            flex-wrap: wrap;
             gap: 10px;
+            border-top: 1px solid #e2e8f0;
         }
-        
-        .admin-actions a {
-            color: #4299e1;
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
             font-size: 14px;
-        }
-        
-        .admin-actions a:hover {
-            color: #3182ce;
-        }
-        
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .empty-state i {
-            font-size: 64px;
-            color: #cbd5e0;
-            margin-bottom: 20px;
-        }
-        
-        .empty-state h3 {
-            font-size: 24px;
-            color: #4a5568;
-            margin-bottom: 10px;
-        }
-        
-        .empty-state p {
-            color: #718096;
-            margin-bottom: 20px;
-        }
-        
-        /* Footer */
-        footer {
-            background-color: #2d3748;
-            color: white;
-            padding: 30px 0;
-            text-align: center;
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 15px;
-        }
-        
-        .footer-links a {
-            color: #cbd5e0;
+            font-weight: 500;
             text-decoration: none;
-            transition: color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.3s;
         }
-        
-        .footer-links a:hover {
-            color: #4299e1;
+        .btn-primary { background: #3182ce; color: white; }
+        .btn-primary:hover { background: #2b6cb0; }
+        .btn-secondary { background: #48bb78; color: white; }
+        .btn-secondary:hover { background: #38a169; }
+        .btn-danger { background: #e53e3e; color: white; }
+        .btn-danger:hover { background: #c53030; }
+        .back-link { color: #2d3748; text-decoration: none; }
+        .back-link:hover { color: #3182ce; }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #2d3748;
+            color: #cbd5e0;
+            margin-top: 40px;
         }
-        
-        .copyright {
-            color: #a0aec0;
-            font-size: 14px;
-        }
-        
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                padding: 15px;
-            }
-            
-            .logo {
-                margin-bottom: 15px;
-            }
-            
-            nav ul {
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-                width: 100%;
-            }
-            
-            nav ul li {
-                margin: 5px 0;
-            }
-            
-            .user-menu {
-                margin-top: 15px;
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .lessons-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        footer a { color: #63b3ed; text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header>
-        <div class="container header-container">
-            <div class="logo">
-                <i class="fas fa-globe-americas"></i>
-                English Learning App
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'learning:course_list' %}">Courses</a></li>
-                    <li><a href="#">Resources</a></li>
-                    <li><a href="#">About</a></li>
-                </ul>
-            </nav>
-            <div class="user-menu">
-                <div class="user-info">
-                    <div class="user-avatar">{{ user.email|make_list|first|upper }}</div>
-                    <span>{{ user.email }}</span>
-                </div>
-                <a href="{% url 'accounts:logout' %}" class="btn btn-outline">Logout</a>
-            </div>
-        </div>
+        <div class="logo"><i class="fas fa-globe"></i> English Learning</div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'learning:course_list' %}">Courses</a></li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <!-- Main Content -->
-    <main>
-        <div class="container">
-            <div class="breadcrumb">
-                <a href="{% url 'learning:course_list' %}">Courses</a>
-                <i class="fas fa-chevron-right"></i>
-                <span>{{ course.title }}</span>
+    <div class="container">
+        <div class="lesson-container">
+            <div class="lesson-header">
+                <h1>{{ lesson.title }}</h1>
+                <div class="lesson-meta">
+                    <span>{{ lesson.course.title }}</span> • Lesson {{ lesson.order }}
+                </div>
             </div>
-            
-            <div class="page-header">
-                <h1 class="page-title">Lessons for {{ course.title }}</h1>
-                {% if user.role in "TEACHER ADMIN" or user.is_superuser %}
-                    <a href="{% url 'learning:lesson_create' course.id %}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Add Lesson
-                    </a>
+
+            <div class="lesson-content">
+                {% if lesson.image %}
+                <div class="lesson-image">
+                    <img src="{{ lesson.image.url }}" alt="{{ lesson.title }}">
+                </div>
+                {% endif %}
+                {{ lesson.content|linebreaks }}
+            </div>
+
+            {% if lesson.video_url or lesson.audio_url %}
+            <div class="media-section">
+                {% if lesson.video_url %}
+                <div class="media-card">
+                    <h3><i class="fas fa-video"></i> Lesson Video</h3>
+                    <iframe src="{{ lesson.video_url }}" frameborder="0" allowfullscreen></iframe>
+                </div>
+                {% endif %}
+
+                {% if lesson.audio_url %}
+                <div class="media-card">
+                    <h3><i class="fas fa-headphones"></i> Lesson Audio</h3>
+                    <audio controls>
+                        <source src="{{ lesson.audio_url }}" type="audio/mpeg">
+                    </audio>
+                </div>
                 {% endif %}
             </div>
-            
-            {% if lessons %}
-                <div class="lessons-grid">
+            {% endif %}
+
+            <div class="lesson-actions">
+                <a href="{% url 'learning:lesson_list' course.id %}" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Back to Lessons
+                </a>
+                <div>
                     {% for lesson in lessons %}
                         <div class="lesson-card">
-                            <div class="lesson-image">
-                                <i class="fas fa-book-open"></i>
-                            </div>
-                            <div class="lesson-content">
-                                <h3 class="lesson-title">{{ lesson.title }}</h3>
-                                <p class="lesson-description">{{ lesson.description|truncatewords:20 }}</p>
-                                <div class="lesson-actions">
-                                    <a href="{% url 'learning:exercise_list' lesson.id %}">
-                                        <i class="fas fa-tasks"></i> Exercises
-                                    </a>
-                                    {% if user.role in "TEACHER ADMIN" or user.is_superuser %}
-                                        <div class="admin-actions">
-                                            <a href="#">
-                                                <i class="fas fa-edit"></i> Edit
-                                            </a>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
+                        <h3>{{ lesson.title }}</h3>
+                        <a href="{% url 'learning:exercise_list' lesson.id %}" class="btn btn-primary">
+                        <i class="fas fa-tasks"></i> View Exercises
+                </a>
+                    
+                    {% if user.role == "TEACHER" or user.role == "ADMIN" or user.is_superuser %}
+                    <a href="{% url 'learning:lesson_edit' course.id lesson.id %}" class="btn btn-secondary">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a href="{% url 'learning:lesson_delete' course.id lesson.id %}" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Delete
+                    </a>
+                    {% endif %} 
                     {% endfor %}
                 </div>
-            {% else %}
-                <div class="empty-state">
-                    <i class="fas fa-book-open"></i>
-                    <h3>No lessons yet</h3>
-                    <p>There are no lessons available for this course at the moment.</p>
-                    {% if user.role in "TEACHER ADMIN" or user.is_superuser %}
-                        <a href="{% url 'learning:lesson_create' course.id %}" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Create Your First Lesson
-                        </a>
-                    {% endif %}
                 </div>
-            {% endif %}
-            
-            <div class="back-link" style="margin-top: 30px;">
-                <a href="{% url 'learning:course_list' %}" class="btn btn-outline">
-                    <i class="fas fa-arrow-left"></i> Back to Courses
-                </a>
             </div>
         </div>
-    </main>
+    </div>
 
-    <!-- Footer -->
     <footer>
-        <div class="container">
-            <div class="footer-links">
-                <a href="#">Home</a>
-                <a href="#">Courses</a>
-                <a href="#">Resources</a>
-                <a href="#">About</a>
-                <a href="#">Contact</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-            </div>
-            <div class="copyright">
-                &copy; 2023 English Learning App. All rights reserved.
-            </div>
-        </div>
+        <p>&copy; {{ now|date:"Y" }} English Learning App. Built with ❤️ in Django.</p>
     </footer>
 </body>
 </html>

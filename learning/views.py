@@ -3,14 +3,17 @@ from .models import Course, Lesson, Exercise
 from .forms import CourseForm, LessonForm, ExerciseForm
 from .decorators import teacher_required
 from django.contrib.auth.decorators import login_required
-
+from django.shortcuts import render, get_object_or_404
+from .models import Course, Lesson
 # ---------------- COURSES ----------------
-@login_required
+
+# Course list
 def course_list(request):
     courses = Course.objects.all()
     return render(request, 'learning/course_list.html', {'courses': courses})
 
-@teacher_required
+
+@login_required
 def create_course(request):
     if request.method == "POST":
         form = CourseForm(request.POST)
@@ -41,25 +44,51 @@ def delete_course(request, pk):
     return render(request, 'learning/course_confirm_delete.html', {'course': course})
 
 # ---------------- LESSONS ----------------
-@login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Course, Lesson
+from .forms import LessonForm
+
+# List all lessons of a course
 def lesson_list(request, course_id):
     course = get_object_or_404(Course, id=course_id)
-    lessons = course.lesson_set.all()
-    return render(request, 'learning/lesson_list.html', {'course': course, 'lessons': lessons})
+    lessons = course.lessons.all().order_by("order")
+    return render(request, "learning/lesson_list.html", {"course": course, "lessons": lessons})
 
-@teacher_required
+# Create a lesson
 def lesson_create(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     if request.method == "POST":
-        form = LessonForm(request.POST)
+        form = LessonForm(request.POST, request.FILES)
         if form.is_valid():
             lesson = form.save(commit=False)
             lesson.course = course
             lesson.save()
-            return redirect('learning:lesson_list', course_id=course.id)
+            return redirect("lesson_list", course_id=course.id)
     else:
         form = LessonForm()
-    return render(request, 'learning/lesson_form.html', {'form': form, 'course': course})
+    return render(request, "learning/lesson_form.html", {"form": form, "course": course})
+
+# Edit a lesson
+def lesson_edit(request, course_id, lesson_id):
+    course = get_object_or_404(Course, id=course_id)
+    lesson = get_object_or_404(Lesson, id=lesson_id, course=course)
+    if request.method == "POST":
+        form = LessonForm(request.POST, request.FILES, instance=lesson)
+        if form.is_valid():
+            form.save()
+            return redirect("lesson_list", course_id=course.id)
+    else:
+        form = LessonForm(instance=lesson)
+    return render(request, "learning/lesson_form.html", {"form": form, "course": course})
+
+# Delete a lesson
+def lesson_delete(request, course_id, lesson_id):
+    course = get_object_or_404(Course, id=course_id)
+    lesson = get_object_or_404(Lesson, id=lesson_id, course=course)
+    if request.method == "POST":
+        lesson.delete()
+        return redirect("lesson_list", course_id=course.id)
+    return render(request, "learning/lesson_confirm_delete.html", {"lesson": lesson, "course": course})
 
 # ---------------- EXERCISES ----------------
 @login_required

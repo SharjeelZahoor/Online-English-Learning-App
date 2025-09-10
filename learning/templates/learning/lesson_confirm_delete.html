@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if lesson %}Edit{% else %}Create{% endif %} Lesson | English Learning App</title>
+    <title>Delete Lesson - {{ lesson.title }} | English Learning App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -136,21 +136,14 @@
             align-items: center;
         }
         
-        .form-box {
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            padding: 40px;
-            max-width: 700px;
-            width: 100%;
-        }
-        
         .breadcrumb {
             display: flex;
             align-items: center;
             margin-bottom: 25px;
             font-size: 14px;
             color: #718096;
+            max-width: 500px;
+            width: 100%;
         }
         
         .breadcrumb a {
@@ -168,166 +161,137 @@
             font-size: 12px;
         }
         
-        h2 {
-            font-size: 28px;
-            margin-bottom: 25px;
-            color: #2d3748;
+        .delete-container {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
             text-align: center;
             position: relative;
+            overflow: hidden;
         }
         
-        h2::after {
+        .delete-container::before {
             content: '';
             position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background-color: #4299e1;
-            border-radius: 2px;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: rgba(229, 62, 62, 0.05);
+            border-radius: 50%;
+            transform: translate(50px, -50px);
         }
         
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        label {
-            font-weight: 600;
-            margin-bottom: 8px;
-            display: block;
-            color: #2d3748;
-            font-size: 15px;
-        }
-        
-        input, textarea, select {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            margin-bottom: 5px;
-            font-size: 15px;
-            font-family: 'Poppins', sans-serif;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #4299e1;
-            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
-        }
-        
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-        
-        .file-upload {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-            width: 100%;
-        }
-        
-        .file-upload input[type="file"] {
-            position: absolute;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-        
-        .file-upload-label {
+        .delete-icon {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(229, 62, 62, 0.1);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
-            border: 2px dashed #cbd5e0;
-            border-radius: 8px;
-            background-color: #f8fafc;
-            color: #718096;
-            transition: all 0.3s;
+            margin: 0 auto 25px;
         }
         
-        .file-upload:hover .file-upload-label {
-            border-color: #4299e1;
-            background-color: #ebf8ff;
-            color: #4299e1;
-        }
-        
-        .file-upload-label i {
-            font-size: 24px;
-            margin-right: 10px;
-        }
-        
-        .helptext {
-            font-size: 13px;
-            color: #718096;
-            margin-top: 5px;
-        }
-        
-        .errorlist {
+        .delete-icon i {
+            font-size: 36px;
             color: #e53e3e;
-            font-size: 13px;
-            margin-top: 5px;
-            list-style-type: none;
-            padding-left: 5px;
         }
         
-        .non-field-errors {
+        h2 {
+            font-size: 26px;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        
+        .delete-message {
+            font-size: 16px;
+            color: #4a5568;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .lesson-title {
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .course-title {
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .warning-text {
             background-color: #fed7d7;
-            color: #c53030;
-            padding: 12px 15px;
+            border-left: 4px solid #e53e3e;
+            padding: 15px;
             border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
+            margin-bottom: 30px;
+            text-align: left;
+            color: #742a2a;
+            font-size: 14px;
         }
         
-        .non-field-errors i {
+        .warning-text i {
             margin-right: 10px;
+            color: #e53e3e;
         }
         
-        .actions {
-            text-align: center;
-            margin-top: 30px;
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
         }
         
-        .btn-primary {
-            background: #4299e1;
+        .btn-danger {
+            background: #e53e3e;
             color: white;
             padding: 12px 25px;
-            font-weight: 600;
             border-radius: 8px;
+            font-weight: 600;
             border: none;
             cursor: pointer;
             transition: background 0.3s;
             font-family: 'Poppins', sans-serif;
             font-size: 15px;
+            display: inline-flex;
+            align-items: center;
         }
         
-        .btn-primary:hover {
-            background: #3182ce;
+        .btn-danger:hover {
+            background: #c53030;
+        }
+        
+        .btn-danger i {
+            margin-right: 8px;
         }
         
         .btn-secondary {
             background: #edf2f7;
             color: #2d3748;
             padding: 12px 25px;
-            font-weight: 600;
             border-radius: 8px;
+            font-weight: 600;
             border: none;
             cursor: pointer;
             transition: background 0.3s;
             font-family: 'Poppins', sans-serif;
             font-size: 15px;
             text-decoration: none;
-            display: inline-block;
-            margin-left: 10px;
+            display: inline-flex;
+            align-items: center;
         }
         
         .btn-secondary:hover {
             background: #e2e8f0;
+        }
+        
+        .btn-secondary i {
+            margin-right: 8px;
         }
         
         /* Footer */
@@ -388,18 +352,17 @@
                 justify-content: center;
             }
             
-            .form-box {
+            .delete-container {
                 padding: 30px 20px;
             }
             
-            .actions {
+            .form-actions {
                 flex-direction: column;
-                gap: 10px;
             }
             
-            .btn-secondary {
-                margin-left: 0;
-                margin-top: 10px;
+            .btn-danger, .btn-secondary {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -432,121 +395,49 @@
 
     <!-- Main Content -->
     <main>
-        <div class="form-box">
+        <div class="container">
+            <!-- Breadcrumb -->
             <div class="breadcrumb">
                 <a href="{% url 'home' %}">Home</a>
                 <i class="fas fa-chevron-right"></i>
                 <a href="{% url 'learning:course_list' %}">Courses</a>
                 <i class="fas fa-chevron-right"></i>
-                <a href="{% url 'learning:lesson_list' course.id %}">{{ course.title }}</a>
+                <a href="{% url 'learning:lesson_list' lesson.course.id %}">{{ lesson.course.title }}</a>
                 <i class="fas fa-chevron-right"></i>
-                <span>{% if lesson %}Edit{% else %}Create{% endif %} Lesson</span>
+                <a href="{% url 'learning:lesson_detail' lesson.id %}">{{ lesson.title }}</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Delete Lesson</span>
             </div>
             
-            <h2>{% if lesson %}Edit{% else %}Create{% endif %} Lesson for "{{ course.title }}"</h2>
-            
-            {% if form.non_field_errors %}
-                <div class="non-field-errors">
+            <!-- Delete Confirmation Box -->
+            <div class="delete-container">
+                <div class="delete-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h2>Delete Lesson</h2>
+                <p class="delete-message">
+                    Are you sure you want to delete the lesson 
+                    <span class="lesson-title">"{{ lesson.title }}"</span> 
+                    from course <span class="course-title">"{{ lesson.course.title }}"</span>?
+                </p>
+                
+                <div class="warning-text">
                     <i class="fas fa-exclamation-circle"></i>
-                    <span>{{ form.non_field_errors }}</span>
-                </div>
-            {% endif %}
-            
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                
-                <div class="form-group">
-                    <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
-                    {{ form.title }}
-                    {% if form.title.help_text %}
-                        <div class="helptext">{{ form.title.help_text }}</div>
-                    {% endif %}
-                    {% if form.title.errors %}
-                        <div class="errorlist">{{ form.title.errors }}</div>
-                    {% endif %}
+                    This action cannot be undone and will permanently remove the lesson and all associated data, including exercises and student progress.
                 </div>
                 
-                <div class="form-group">
-                    <label for="{{ form.content.id_for_label }}">{{ form.content.label }}</label>
-                    {{ form.content }}
-                    {% if form.content.help_text %}
-                        <div class="helptext">{{ form.content.help_text }}</div>
-                    {% endif %}
-                    {% if form.content.errors %}
-                        <div class="errorlist">{{ form.content.errors }}</div>
-                    {% endif %}
-                </div>
-                
-                <div class="form-group">
-                    <label for="{{ form.video_url.id_for_label }}">{{ form.video_url.label }}</label>
-                    {{ form.video_url }}
-                    {% if form.video_url.help_text %}
-                        <div class="helptext">{{ form.video_url.help_text }}</div>
-                    {% endif %}
-                    {% if form.video_url.errors %}
-                        <div class="errorlist">{{ form.video_url.errors }}</div>
-                    {% endif %}
-                </div>
-                
-                <div class="form-group">
-                    <label for="{{ form.audio_url.id_for_label }}">{{ form.audio_url.label }}</label>
-                    {{ form.audio_url }}
-                    {% if form.audio_url.help_text %}
-                        <div class="helptext">{{ form.audio_url.help_text }}</div>
-                    {% endif %}
-                    {% if form.audio_url.errors %}
-                        <div class="errorlist">{{ form.audio_url.errors }}</div>
-                    {% endif %}
-                </div>
-                
-                <div class="form-group">
-                    <label for="{{ form.image.id_for_label }}">{{ form.image.label }}</label>
-                    <div class="file-upload">
-                        <input type="file" id="{{ form.image.id_for_label }}" name="{{ form.image.name }}" accept="image/*">
-                        <label for="{{ form.image.id_for_label }}" class="file-upload-label">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <span>Click to upload an image or drag and drop</span>
-                        </label>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-actions">
+                        <button type="submit" class="btn-danger">
+                            <i class="fas fa-trash"></i> Yes, Delete
+                        </button>
+                        <a href="{% url 'learning:lesson_list' lesson.course.id %}" class="btn-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
                     </div>
-                    {% if form.image.help_text %}
-                        <div class="helptext">{{ form.image.help_text }}</div>
-                    {% endif %}
-                    {% if form.image.errors %}
-                        <div class="errorlist">{{ form.image.errors }}</div>
-                    {% endif %}
-                </div>
-                
-                <div class="form-group">
-                    <label for="{{ form.flashcards.id_for_label }}">{{ form.flashcards.label }}</label>
-                    {{ form.flashcards }}
-                    {% if form.flashcards.help_text %}
-                        <div class="helptext">{{ form.flashcards.help_text }}</div>
-                    {% endif %}
-                    {% if form.flashcards.errors %}
-                        <div class="errorlist">{{ form.flashcards.errors }}</div>
-                    {% endif %}
-                </div>
-                
-                <div class="form-group">
-                    <label for="{{ form.order.id_for_label }}">{{ form.order.label }}</label>
-                    {{ form.order }}
-                    {% if form.order.help_text %}
-                        <div class="helptext">{{ form.order.help_text }}</div>
-                    {% endif %}
-                    {% if form.order.errors %}
-                        <div class="errorlist">{{ form.order.errors }}</div>
-                    {% endif %}
-                </div>
-                
-                <div class="actions">
-                    <button type="submit" class="btn-primary">
-                        <i class="fas fa-save"></i> {% if lesson %}Update{% else %}Create{% endif %}
-                    </button>
-                    <a href="{% url 'learning:lesson_list' course.id %}" class="btn-secondary">
-                        <i class="fas fa-times"></i> Cancel
-                    </a>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </main>
     

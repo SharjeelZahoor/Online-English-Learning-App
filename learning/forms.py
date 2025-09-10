@@ -8,10 +8,20 @@ class CourseForm(forms.ModelForm):
         fields = ['title', 'description', 'skill_level', 'category']
 
 # ---------------- LESSONS ----------------
+
+
 class LessonForm(forms.ModelForm):
     class Meta:
         model = Lesson
-        fields = ['title', 'content', 'multimedia', 'order']
+        fields = [
+            "title",
+            "content",
+            "video_url",
+            "audio_url",
+            "image",
+            "flashcards",
+            "order",
+        ]
 
 # ---------------- EXERCISES ----------------
 class ExerciseForm(forms.ModelForm):
