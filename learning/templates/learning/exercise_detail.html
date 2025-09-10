@@ -1,0 +1,333 @@
+{% extends "core/home.html" %}
+{% block extra_css %}
+<style>
+    /* Push content below header/navbar */
+    body {
+        padding-top: 80px;  /* adjust if your navbar height is different */
+    }
+    
+    /* Container for content */
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    /* Page header */
+    .page-header {
+        background: linear-gradient(135deg, #4299e1, #3182ce);
+        color: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .page-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        transform: translate(50px, -50px);
+    }
+    
+    .page-header h2 {
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 5px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .page-header .exercise-type {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        margin-top: 10px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Exercise container */
+    .exercise-container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+    
+    /* Question section */
+    .question-section {
+        margin-bottom: 30px;
+    }
+    
+    .question-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #718096;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+    }
+    
+    .question-text {
+        font-size: 20px;
+        line-height: 1.5;
+        color: #2d3748;
+        font-weight: 500;
+    }
+    
+    /* Form styling */
+    .answer-form {
+        margin-bottom: 30px;
+    }
+    
+    .answer-form label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 15px;
+        color: #4a5568;
+    }
+    
+    .quiz-options {
+        margin-bottom: 20px;
+    }
+    
+    .quiz-option {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        padding: 15px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .quiz-option:hover {
+        background: #edf2f7;
+        border-color: #cbd5e0;
+    }
+    
+    .quiz-option input[type="radio"] {
+        margin-right: 12px;
+        width: 18px;
+        height: 18px;
+        accent-color: #4299e1;
+    }
+    
+    .quiz-option label {
+        margin: 0;
+        cursor: pointer;
+        flex: 1;
+    }
+    
+    textarea {
+        width: 100%;
+        padding: 15px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 16px;
+        font-family: 'Poppins', sans-serif;
+        transition: border-color 0.3s, box-shadow 0.3s;
+        resize: vertical;
+        min-height: 120px;
+    }
+    
+    textarea:focus {
+        border-color: #4299e1;
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+        outline: none;
+    }
+    
+    /* Buttons */
+    .btn {
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: none;
+        font-family: 'Poppins', sans-serif;
+        font-size: 16px;
+    }
+    
+    .btn-primary {
+        background-color: #4299e1;
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: #3182ce;
+    }
+    
+    .btn-secondary {
+        background-color: #e2e8f0;
+        color: #4a5568;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #cbd5e0;
+    }
+    
+    .btn i {
+        margin-right: 8px;
+    }
+    
+    /* Feedback section */
+    .feedback-section {
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+    }
+    
+    .feedback-correct {
+        background: #f0fff4;
+        border-left: 4px solid #48bb78;
+    }
+    
+    .feedback-incorrect {
+        background: #fff5f5;
+        border-left: 4px solid #e53e3e;
+    }
+    
+    .feedback-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .feedback-correct .feedback-title {
+        color: #38a169;
+    }
+    
+    .feedback-incorrect .feedback-title {
+        color: #e53e3e;
+    }
+    
+    .feedback-title i {
+        margin-right: 10px;
+        font-size: 20px;
+    }
+    
+    .user-answer {
+        margin-bottom: 15px;
+        color: #4a5568;
+    }
+    
+    .correct-answer {
+        color: #4a5568;
+    }
+    
+    /* Back button */
+    .back-button {
+        margin-top: 20px;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .page-header h2 {
+            font-size: 24px;
+        }
+        
+        .question-text {
+            font-size: 18px;
+        }
+        
+        .btn {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h2>Exercise</h2>
+        <div class="exercise-type">{{ exercise.exercise_type }}</div>
+    </div>
+    
+    <!-- Exercise Container -->
+    <div class="exercise-container">
+        <!-- Question Section -->
+        <div class="question-section">
+            <div class="question-label">Question</div>
+            <div class="question-text">{{ exercise.question }}</div>
+        </div>
+        
+        <!-- Answer Form -->
+        <div class="answer-form">
+            {% if exercise.exercise_type == "QUIZ" and exercise.options %}
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="quiz-options">
+                        {% for option in exercise.options %}
+                            <div class="quiz-option">
+                                <input type="radio" name="answer" value="{{ option }}" id="option_{{ forloop.counter }}">
+                                <label for="option_{{ forloop.counter }}">{{ option }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Submit Answer
+                    </button>
+                </form>
+            {% else %}
+                <form method="post">
+                    {% csrf_token %}
+                    <textarea name="answer" rows="3" placeholder="Type your answer"></textarea>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Submit Answer
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+        
+        <!-- Feedback Section -->
+        {% if user_answer %}
+            <div class="feedback-section {% if is_correct %}feedback-correct{% else %}feedback-incorrect{% endif %}">
+                <div class="feedback-title">
+                    {% if is_correct %}
+                        <i class="fas fa-check-circle"></i> Correct!
+                    {% else %}
+                        <i class="fas fa-times-circle"></i> Incorrect
+                    {% endif %}
+                </div>
+                <div class="user-answer">
+                    <strong>Your answer:</strong> {{ user_answer }}
+                </div>
+                {% if not is_correct %}
+                    <div class="correct-answer">
+                        <strong>Correct Answer:</strong> {{ exercise.answer }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        
+        <!-- Back Button -->
+        <div class="back-button">
+            <a href="{% url 'learning:exercise_list' lesson.id %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Exercises
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

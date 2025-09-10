@@ -94,8 +94,12 @@ def lesson_delete(request, course_id, lesson_id):
 @login_required
 def exercise_list(request, lesson_id):
     lesson = get_object_or_404(Lesson, id=lesson_id)
-    exercises = lesson.exercise_set.all()
-    return render(request, 'learning/exercise_list.html', {'lesson': lesson, 'exercises': exercises})
+    exercises = lesson.exercises.all()
+    return render(request, "learning/exercise_list.html", {
+        "lesson": lesson,
+        "exercises": exercises,
+    })
+
 
 @teacher_required
 def exercise_create(request, lesson_id):
@@ -106,7 +110,62 @@ def exercise_create(request, lesson_id):
             exercise = form.save(commit=False)
             exercise.lesson = lesson
             exercise.save()
-            return redirect('learning:exercise_list', lesson_id=lesson.id)
+            return redirect("learning:exercise_list", lesson_id=lesson.id)
     else:
         form = ExerciseForm()
-    return render(request, 'learning/exercise_form.html', {'form': form, 'lesson': lesson})
+    return render(request, "learning/exercise_form.html", {
+        "form": form,
+        "lesson": lesson,
+    })
+
+
+@login_required
+def exercise_detail(request, lesson_id, exercise_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    exercise = get_object_or_404(Exercise, id=exercise_id, lesson=lesson)
+
+    if request.method == "POST":
+        user_answer = request.POST.get("answer")
+        is_correct = (user_answer.strip().lower() == exercise.answer.strip().lower())
+        return render(request, "learning/exercise_detail.html", {
+            "lesson": lesson,
+            "exercise": exercise,
+            "user_answer": user_answer,
+            "is_correct": is_correct,
+        })
+
+    return render(request, "learning/exercise_detail.html", {
+        "lesson": lesson,
+        "exercise": exercise,
+    })
+
+
+@teacher_required
+def exercise_edit(request, lesson_id, exercise_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    exercise = get_object_or_404(Exercise, id=exercise_id, lesson=lesson)
+    if request.method == "POST":
+        form = ExerciseForm(request.POST, instance=exercise)
+        if form.is_valid():
+            form.save()
+            return redirect("learning:exercise_detail", lesson_id=lesson.id, exercise_id=exercise.id)
+    else:
+        form = ExerciseForm(instance=exercise)
+    return render(request, "learning/exercise_form.html", {
+        "form": form,
+        "lesson": lesson,
+        "exercise": exercise,
+    })
+
+
+@teacher_required
+def exercise_delete(request, lesson_id, exercise_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    exercise = get_object_or_404(Exercise, id=exercise_id, lesson=lesson)
+    if request.method == "POST":
+        exercise.delete()
+        return redirect("learning:exercise_list", lesson_id=lesson.id)
+    return render(request, "learning/exercise_confirm_delete.html", {
+        "lesson": lesson,
+        "exercise": exercise,
+    })

@@ -1,464 +1,259 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exercises | English Learning App</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8fafc;
-            color: #334155;
-            min-height: 100vh;
-            display: flex;
+{% extends "core/home.html" %}
+{% block extra_css %}
+<style>
+    /* Push content below header/navbar */
+    body {
+        padding-top: 80px;  /* adjust if your navbar height is different */
+    }
+    
+    /* Container for content */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    /* Page header */
+    .page-header {
+        background: linear-gradient(135deg, #4299e1, #3182ce);
+        color: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .page-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        transform: translate(50px, -50px);
+    }
+    
+    .page-header h2 {
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 5px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .page-header p {
+        font-size: 16px;
+        opacity: 0.9;
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Exercise list container */
+    .exercise-container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+    
+    /* Exercise list */
+    .exercise-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .exercise-list li {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .exercise-list li:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .exercise-info {
+        flex-grow: 1;
+    }
+    
+    .exercise-type {
+        display: inline-block;
+        background: #4299e1;
+        color: white;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+    
+    .exercise-question {
+        font-size: 16px;
+        font-weight: 500;
+        color: #2d3748;
+        margin: 0;
+    }
+    
+    /* Exercise actions */
+    .exercise-actions {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .exercise-actions a {
+        text-decoration: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+    
+    .view-link {
+        background: #4299e1;
+        color: white;
+    }
+    
+    .view-link:hover {
+        background: #3182ce;
+    }
+    
+    .edit-link {
+        background: #48bb78;
+        color: white;
+    }
+    
+    .edit-link:hover {
+        background: #38a169;
+    }
+    
+    .delete-link {
+        background: #e53e3e;
+        color: white;
+    }
+    
+    .delete-link:hover {
+        background: #c53030;
+    }
+    
+    /* Empty state */
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: #718096;
+    }
+    
+    .empty-state i {
+        font-size: 48px;
+        color: #cbd5e0;
+        margin-bottom: 15px;
+    }
+    
+    .empty-state p {
+        font-size: 16px;
+        margin: 0;
+    }
+    
+    /* Add button */
+    .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        background: #4299e1;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background 0.3s;
+        border: none;
+        cursor: pointer;
+        font-family: 'Poppins', sans-serif;
+        margin-top: 20px;
+    }
+    
+    .btn-primary:hover {
+        background: #3182ce;
+    }
+    
+    .btn-primary i {
+        margin-right: 8px;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .exercise-list li {
             flex-direction: column;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Header Styles */
-        header {
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            font-size: 24px;
-            font-weight: 700;
-            color: #2c5282;
-        }
-        
-        .logo i {
-            margin-right: 10px;
-            color: #4299e1;
-            font-size: 28px;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        nav ul li {
-            margin-left: 25px;
-        }
-        
-        nav ul li a {
-            text-decoration: none;
-            color: #4a5568;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        nav ul li a:hover {
-            color: #4299e1;
-        }
-        
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #4299e1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: inline-block;
-            cursor: pointer;
-            border: none;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        .btn-primary {
-            background-color: #4299e1;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: #3182ce;
-        }
-        
-        .btn-outline {
-            border: 2px solid #4299e1;
-            color: #4299e1;
-            background-color: transparent;
-        }
-        
-        .btn-outline:hover {
-            background-color: #4299e1;
-            color: white;
-        }
-        
-        /* Main Content */
-        main {
-            flex: 1;
-            padding: 40px 0;
-        }
-        
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .page-title {
-            font-size: 32px;
-            color: #2d3748;
-        }
-        
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            font-size: 14px;
-            color: #718096;
-        }
-        
-        .breadcrumb a {
-            color: #4299e1;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .breadcrumb a:hover {
-            color: #3182ce;
-        }
-        
-        .breadcrumb i {
-            margin: 0 10px;
-            font-size: 12px;
-        }
-        
-        /* Exercise Grid */
-        .exercises-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-        }
-        
-        .exercise-card {
-            background-color: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .exercise-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .exercise-image {
-            height: 180px;
-            background-color: #ebf8ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #4299e1;
-            font-size: 48px;
-        }
-        
-        .exercise-content {
-            padding: 20px;
-        }
-        
-        .exercise-type {
-            display: inline-block;
-            background-color: #e6fffa;
-            color: #319795;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-        
-        .exercise-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 15px;
-        }
-        
-        .exercise-question {
-            color: #4a5568;
-            margin-bottom: 20px;
-            line-height: 1.5;
+            align-items: flex-start;
         }
         
         .exercise-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            margin-top: 15px;
+            width: 100%;
+            justify-content: flex-end;
         }
-        
-        .exercise-actions a {
-            text-decoration: none;
-            color: #4299e1;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: color 0.3s;
-        }
-        
-        .exercise-actions a:hover {
-            color: #3182ce;
-        }
-        
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .empty-state i {
-            font-size: 64px;
-            color: #cbd5e0;
-            margin-bottom: 20px;
-        }
-        
-        .empty-state h3 {
-            font-size: 24px;
-            color: #4a5568;
-            margin-bottom: 10px;
-        }
-        
-        .empty-state p {
-            color: #718096;
-            margin-bottom: 20px;
-        }
-        
-        /* Footer */
-        footer {
-            background-color: #2d3748;
-            color: white;
-            padding: 30px 0;
-            text-align: center;
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 15px;
-        }
-        
-        .footer-links a {
-            color: #cbd5e0;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: #4299e1;
-        }
-        
-        .copyright {
-            color: #a0aec0;
-            font-size: 14px;
-        }
-        
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                padding: 15px;
-            }
-            
-            .logo {
-                margin-bottom: 15px;
-            }
-            
-            nav ul {
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-                width: 100%;
-            }
-            
-            nav ul li {
-                margin: 5px 0;
-            }
-            
-            .user-menu {
-                margin-top: 15px;
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .exercises-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <div class="logo">
-                <i class="fas fa-globe-americas"></i>
-                English Learning App
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'learning:course_list' %}">Courses</a></li>
-                    <li><a href="#">Resources</a></li>
-                    <li><a href="#">About</a></li>
-                </ul>
-            </nav>
-            <div class="user-menu">
-                <div class="user-info">
-                    <div class="user-avatar">{{ user.email|make_list|first|upper }}</div>
-                    <span>{{ user.email }}</span>
-                </div>
-                <a href="{% url 'accounts:logout' %}" class="btn btn-outline">Logout</a>
-            </div>
-        </div>
-    </header>
+    }
+</style>
+{% endblock %}
 
-    <!-- Main Content -->
-    <main>
-        <div class="container">
-            <div class="breadcrumb">
-                <a href="{% url 'learning:course_list' %}">Courses</a>
-                <i class="fas fa-chevron-right"></i>
-                <a href="{% url 'learning:lesson_list' lesson.course.id %}">{{ lesson.course.title }}</a>
-                <i class="fas fa-chevron-right"></i>
-                <span>Exercises</span>
-            </div>
-            
-            <div class="page-header">
-                <h1 class="page-title">Exercises for {{ lesson.title }}</h1>
-                {% if user.role in "TEACHER ADMIN" or user.is_superuser %}
-                    <a href="{% url 'learning:exercise_create' lesson.id %}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Add Exercise
-                    </a>
-                {% endif %}
-            </div>
-            
-            {% if exercises %}
-                <div class="exercises-grid">
-                    {% for exercise in exercises %}
-                        <div class="exercise-card">
-                            <div class="exercise-image">
-                                <i class="fas fa-tasks"></i>
-                            </div>
-                            <div class="exercise-content">
-                                <span class="exercise-type">{{ exercise.exercise_type }}</span>
-                                <h3 class="exercise-title">{{ exercise.question|truncatewords:10 }}</h3>
-                                <p class="exercise-question">{{ exercise.question }}</p>
-                                <div class="exercise-actions">
-                                    <a href="#">
-                                        <i class="fas fa-play-circle"></i> Start Exercise
-                                    </a>
-                                    {% if user.role in "TEACHER ADMIN" or user.is_superuser %}
-                                        <div class="admin-actions">
-                                            <a href="#">
-                                                <i class="fas fa-edit"></i> Edit
-                                            </a>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="empty-state">
-                    <i class="fas fa-tasks"></i>
-                    <h3>No exercises yet</h3>
-                    <p>There are no exercises available for this lesson at the moment.</p>
-                    {% if user.role in "TEACHER ADMIN" or user.is_superuser %}
-                        <a href="{% url 'learning:exercise_create' lesson.id %}" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Create Your First Exercise
+{% block content %}
+<div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h2>Exercises</h2>
+        <p>For lesson: {{ lesson.title }}</p>
+    </div>
+    
+    <!-- Exercise List -->
+    <div class="exercise-container">
+        <ul class="exercise-list">
+            {% for exercise in exercises %}
+                <li>
+                    <div class="exercise-info">
+                        <span class="exercise-type">{{ exercise.exercise_type }}</span>
+                        <p class="exercise-question">{{ exercise.question|truncatewords:10 }}</p>
+                    </div>
+                    <div class="exercise-actions">
+                        <a href="{% url 'learning:exercise_detail' lesson.id exercise.id %}" class="view-link">
+                            <i class="fas fa-eye"></i> View
                         </a>
-                    {% endif %}
-                </div>
-            {% endif %}
-            
-            <div class="back-link" style="margin-top: 30px;">
-                <a href="{% url 'learning:lesson_list' lesson.course.id %}" class="btn btn-outline">
-                    <i class="fas fa-arrow-left"></i> Back to Lessons
-                </a>
-            </div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-links">
-                <a href="#">Home</a>
-                <a href="#">Courses</a>
-                <a href="#">Resources</a>
-                <a href="#">About</a>
-                <a href="#">Contact</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-            </div>
-            <div class="copyright">
-                &copy; 2023 English Learning App. All rights reserved.
-            </div>
-        </div>
-    </footer>
-</body>
-</html>
+                        
+                        {% if user.role == "TEACHER" or user.is_superuser %}
+                            <a href="{% url 'learning:exercise_edit' lesson.id exercise.id %}" class="edit-link">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a href="{% url 'learning:exercise_delete' lesson.id exercise.id %}" class="delete-link" onclick="return confirm('Are you sure you want to delete this exercise?');">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                        {% endif %}
+                    </div>
+                </li>
+            {% empty %}
+                <li class="empty-state">
+                    <i class="fas fa-tasks"></i>
+                    <p>No exercises yet.</p>
+                </li>
+            {% endfor %}
+        </ul>
+        
+        {% if user.role == "TEACHER" or user.is_superuser %}
+            <a href="{% url 'learning:exercise_create' lesson.id %}" class="btn-primary">
+                <i class="fas fa-plus"></i> Add Exercise
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -511,6 +511,9 @@
             }
         }
     </style>
+    {% block extra_css %}
+{% endblock %}
+
 </head>
 <body>
     <!-- Header -->
@@ -534,7 +537,7 @@
             </div>
         </div>
     </header>
-
+{% block content %}
     <!-- Hero Section -->
     <section class="hero">
         <div class="container hero-content">
@@ -662,7 +665,7 @@
             <a href="{% url 'accounts:signup' %}" class="btn btn-white btn-lg">Get Started for Free</a>
         </div>
     </section>
-
+{% endblock %}
     <!-- Footer -->
     <footer id="contact">
         <div class="container">
