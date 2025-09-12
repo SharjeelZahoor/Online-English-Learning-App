@@ -1,11 +1,225 @@
-{% extends "base.html" %}
-{% block content %}
-<h2>{% if exercise %}Edit{% else %}Create{% endif %} Exercise for {{ lesson.title }}</h2>
+{% extends "core/home.html" %}
+{% block extra_css %}
+<style>
+    /* Push content below header/navbar */
+    body {
+        padding-top: 80px;  /* adjust if your navbar height is different */
+        margin-top: 120px; /* Increased top margin */
+    }
+    
+    /* Container for content */
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    /* Page header */
+    h2 {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 25px 30px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        margin-bottom: 40px; /* Increased margin bottom */
+        position: relative;
+        overflow: hidden;
+        font-size: 28px;
+        font-weight: 600;
+        text-align: center;
+    }
+    
+    h2::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        transform: translate(50px, -50px);
+    }
+    
+    /* Form container */
+    form {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        margin-bottom: 30px;
+        margin-top: 30px; /* Added top margin */
+    }
+    
+    /* Form styling */
+    form p {
+        margin-bottom: 25px;
+    }
+    
+    form label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #2d3748;
+        font-size: 16px;
+    }
+    
+    form input[type="text"],
+    form textarea,
+    form select {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 16px;
+        font-family: 'Poppins', sans-serif;
+        transition: all 0.3s ease;
+        background-color: #f8fafc;
+    }
+    
+    /* Special styling for fields with more characters */
+    form textarea,
+    input[type="text"][value*=" "]:not([value=""]) {
+        max-width: 90%;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    form input[type="text"]:focus,
+    form textarea:focus,
+    form select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        outline: none;
+        background-color: white;
+    }
+    
+    form textarea {
+        min-height: 120px;
+        resize: vertical;
+        max-height: 300px;
+    }
+    
+    form .errorlist {
+        color: #e53e3e;
+        padding: 0;
+        margin: 5px 0 0;
+        list-style: none;
+        font-size: 14px;
+    }
+    
+    form .helptext {
+        font-size: 14px;
+        color: #718096;
+        margin-top: 5px;
+        font-style: italic;
+    }
+    
+    /* Buttons */
+    .btn {
+        padding: 14px 28px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: none;
+        font-family: 'Poppins', sans-serif;
+        font-size: 16px;
+        margin-right: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-success {
+        background: linear-gradient(135deg, #48bb78, #38a169);
+        color: white;
+    }
+    
+    .btn-success:hover {
+        background: linear-gradient(135deg, #38a169, #2f855a);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn-secondary {
+        background: linear-gradient(135deg, #e2e8f0, #cbd5e0);
+        color: #4a5568;
+    }
+    
+    .btn-secondary:hover {
+        background: linear-gradient(135deg, #cbd5e0, #a0aec0);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn i {
+        margin-right: 8px;
+    }
+    
+    /* Form actions container */
+    .form-actions {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        gap: 15px;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+        body {
+            margin-top: 100px;
+        }
+        
+        h2 {
+            font-size: 24px;
+            padding: 20px 25px;
+            margin-bottom: 30px;
+        }
+        
+        form {
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: 10px;
+        }
+        
+        .form-actions {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Save</button>
-    <a href="{% url 'learning:exercise_list' lesson.id %}" class="btn btn-secondary">Cancel</a>
-</form>
+{% block content %}
+<div class="container">
+    <h2>{% if exercise %}Edit{% else %}Create{% endif %} Lesson for {{ course.title }}</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save"></i> Save
+            </button>
+            
+            {% if lesson %}
+                <a href="{% url 'learning:lesson_list' course.id %}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            {% else %}
+                <a href="{% url 'learning:lesson_list' course.id %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+            {% endif %}
+        </div>
+    </form>
+</div>
 {% endblock %}

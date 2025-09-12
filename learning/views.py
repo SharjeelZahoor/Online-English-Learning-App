@@ -63,7 +63,8 @@ def lesson_create(request, course_id):
             lesson = form.save(commit=False)
             lesson.course = course
             lesson.save()
-            return redirect("lesson_list", course_id=course.id)
+            return redirect("learning:lesson_list", course_id=course.id)
+
     else:
         form = LessonForm()
     return render(request, "learning/lesson_form.html", {"form": form, "course": course})
@@ -76,7 +77,8 @@ def lesson_edit(request, course_id, lesson_id):
         form = LessonForm(request.POST, request.FILES, instance=lesson)
         if form.is_valid():
             form.save()
-            return redirect("lesson_list", course_id=course.id)
+            return redirect("learning:lesson_list", course_id=course.id)
+
     else:
         form = LessonForm(instance=lesson)
     return render(request, "learning/lesson_form.html", {"form": form, "course": course})
@@ -87,7 +89,7 @@ def lesson_delete(request, course_id, lesson_id):
     lesson = get_object_or_404(Lesson, id=lesson_id, course=course)
     if request.method == "POST":
         lesson.delete()
-        return redirect("lesson_list", course_id=course.id)
+        return  redirect("learning:lesson_list", course_id=course.id) 
     return render(request, "learning/lesson_confirm_delete.html", {"lesson": lesson, "course": course})
 
 # ---------------- EXERCISES ----------------
