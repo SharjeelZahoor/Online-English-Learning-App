@@ -143,7 +143,7 @@
             border-left: 3px solid #e53e3e;
         }
         
-        .main-content {
+        .main {
             flex: 1;
             padding: 30px;
             overflow-y: auto;
@@ -187,194 +187,53 @@
             z-index: 1;
         }
         
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
+        .card {
             background-color: var(--card-bg);
             border-radius: 12px;
             padding: 25px;
             box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-        
-        .stat-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            background-color: rgba(66, 153, 225, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 20px;
-        }
-        
-        .stat-icon i {
-            font-size: 24px;
-            color: var(--primary-color);
-        }
-        
-        .stat-content h3 {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 5px;
-        }
-        
-        .stat-content p {
-            color: var(--text-light);
-            font-size: 14px;
-        }
-        
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
             margin-bottom: 30px;
-        }
-        
-        .dashboard-card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: var(--shadow);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
         }
         
-        .dashboard-card:hover {
+        .card:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-hover);
         }
         
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .card-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            background-color: rgba(66, 153, 225, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-        }
-        
-        .card-icon i {
-            font-size: 24px;
-            color: var(--primary-color);
-        }
-        
-        .card-title {
-            font-size: 18px;
+        .card h2 {
+            font-size: 20px;
             font-weight: 600;
             color: var(--text-primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
         }
         
-        .card-description {
+        .card h2 i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        .card p {
             color: var(--text-secondary);
-            margin-bottom: 20px;
             line-height: 1.5;
-            flex-grow: 1;
+            margin-bottom: 20px;
         }
         
-        .card-action {
+        .card a {
             display: inline-block;
             color: var(--primary-color);
             text-decoration: none;
             font-weight: 600;
             font-size: 14px;
             transition: color 0.3s ease;
-            margin-top: auto;
+            margin-top: 10px;
         }
         
-        .card-action:hover {
+        .card a:hover {
             color: var(--primary-dark);
-        }
-        
-        .recent-activity {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            margin-bottom: 30px;
-        }
-        
-        .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .section-title i {
-            margin-right: 10px;
-            color: var(--primary-color);
-        }
-        
-        .activity-list {
-            list-style: none;
-        }
-        
-        .activity-item {
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-        }
-        
-        .activity-item:last-child {
-            border-bottom: none;
-        }
-        
-        .activity-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: rgba(66, 153, 225, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-        }
-        
-        .activity-icon i {
-            font-size: 16px;
-            color: var(--primary-color);
-        }
-        
-        .activity-content {
-            flex: 1;
-        }
-        
-        .activity-title {
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 3px;
-        }
-        
-        .activity-time {
-            font-size: 12px;
-            color: var(--text-light);
+            text-decoration: underline;
         }
         
         .footer {
@@ -388,10 +247,6 @@
         @media (max-width: 1024px) {
             .sidebar {
                 width: 220px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             }
         }
         
@@ -412,7 +267,7 @@
                 padding: 12px 20px;
             }
             
-            .main-content {
+            .main {
                 padding: 20px;
             }
             
@@ -422,14 +277,6 @@
             
             .welcome-card p {
                 max-width: 100%;
-            }
-            
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -442,35 +289,28 @@
         </div>
         <div class="user-info">
             <p>{{ request.user.email }}</p>
-            <span class="user-role">{{ request.user.role }}</span>
+            <span class="user-role">Admin</span>
         </div>
     </div>
     
     <div class="container">
         <nav class="sidebar">
-            <a href="#" class="nav-link active">
+            <a href="{% url 'accounts:admin_dashboard' %}" class="nav-link active">
                 <i class="fas fa-tachometer-alt"></i>
                 Dashboard
             </a>
-            <a href="#" class="nav-link">
-                <i class="fas fa-users"></i>
-                Manage Users
+            
+            <a href="{% url 'accounts:user_list' %}" class="nav-link">
+                <i class="fas fa-user"></i>
+                Manage User
             </a>
-            <a href="#" class="nav-link">
-                <i class="fas fa-chart-bar"></i>
-                View Analytics
-            </a>
-            <a href="#" class="nav-link">
+            <a href="{% url 'accounts:manage_content' %}" class="nav-link">
                 <i class="fas fa-book"></i>
                 Manage Content
             </a>
-            <a href="#" class="nav-link">
-                <i class="fas fa-cog"></i>
-                System Settings
-            </a>
-            <a href="#" class="nav-link">
-                <i class="fas fa-shield-alt"></i>
-                Security
+            <a href="{% url 'accounts:analytics' %}" class="nav-link">
+                <i class="fas fa-chart-bar"></i>
+                View Analytics
             </a>
             <a href="{% url 'accounts:logout' %}" class="nav-link logout">
                 <i class="fas fa-sign-out-alt"></i>
@@ -478,183 +318,18 @@
             </a>
         </nav>
         
-        <main class="main-content">
+        <main class="main">
             <div class="welcome-card">
                 <h1>Welcome, Administrator!</h1>
-                <p>Manage the platform, view analytics, and oversee all system operations from your central dashboard.</p>
+                <p>From here, you can manage users, control courses and lessons, and view analytics of the platform.</p>
             </div>
             
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>1,248</h3>
-                        <p>Total Users</p>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-chalkboard-teacher"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>42</h3>
-                        <p>Active Teachers</p>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-user-graduate"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>1,206</h3>
-                        <p>Active Students</p>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-book"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>87</h3>
-                        <p>Available Courses</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="dashboard-grid">
-                <!-- Manage Courses -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-book"></i>
-                        </div>
-                        <h3 class="card-title">Manage Courses</h3>
-                    </div>
-                    <p class="card-description">Add, update, or delete courses for your platform.</p>
-                    <a href="{% url 'learning:course_list' %}" class="card-action">View Courses →</a>
-                </div>
-                
-                <!-- Manage Lessons -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </div>
-                        <h3 class="card-title">Manage Lessons</h3>
-                    </div>
-                    <p class="card-description">Add, update, or delete lessons for different courses.</p>
-                    {% if courses %}
-                        {% for course in courses %}
-                            <a href="{% url 'learning:lesson_list' course.id %}" class="card-action">{{ course.name }} Lessons →</a><br>
-                        {% endfor %}
-                    {% else %}
-                        <p>No courses found. Add courses first.</p>
-                    {% endif %}
-                </div>
-                
-                <!-- Manage Exercises -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-pencil-alt"></i>
-                        </div>
-                        <h3 class="card-title">Manage Exercises</h3>
-                    </div>
-                    <p class="card-description">Create exercises linked to lessons for students.</p>
-                    {% if lessons %}
-                        {% for lesson in lessons %}
-                            <a href="{% url 'learning:exercise_list' lesson.id %}" class="card-action">{{ lesson.title }} Exercises →</a><br>
-                        {% endfor %}
-                    {% else %}
-                        <p>No lessons found. Add lessons first.</p>
-                    {% endif %}
-                </div>
-                
-                <!-- Manage Users -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3 class="card-title">Manage Users</h3>
-                    </div>
-                    <p class="card-description">Add, edit, and manage user accounts including students, teachers, and administrators.</p>
-                    <a href="#" class="card-action">Manage Users →</a>
-                </div>
-                
-                <!-- View Analytics -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
-                        <h3 class="card-title">View Analytics</h3>
-                    </div>
-                    <p class="card-description">Access detailed reports about platform usage and user engagement.</p>
-                    <a href="#" class="card-action">View Analytics →</a>
-                </div>
-                
-                <!-- System Settings -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-cog"></i>
-                        </div>
-                        <h3 class="card-title">System Settings</h3>
-                    </div>
-                    <p class="card-description">Configure platform settings, integrations, and system preferences.</p>
-                    <a href="#" class="card-action">Configure Settings →</a>
-                </div>
-            </div>
-            
-            <div class="recent-activity">
-                <h2 class="section-title">
-                    <i class="fas fa-history"></i>
-                    Recent System Activity
-                </h2>
-                <ul class="activity-list">
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-user-plus"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">New teacher account created</div>
-                            <div class="activity-time">2 hours ago</div>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-book"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">New course "Advanced Business English" added</div>
-                            <div class="activity-time">5 hours ago</div>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Monthly analytics report generated</div>
-                            <div class="activity-time">Yesterday</div>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Security update applied to the platform</div>
-                            <div class="activity-time">2 days ago</div>
-                        </div>
-                    </li>
-                </ul>
+            <div class="card">
+                <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+                <p>Access the most frequently used admin functions directly from here.</p>
+                <a href="{% url 'accounts:user_list' %}" class="card-action">➝ Manage Users</a><br>
+                <a href="{% url 'accounts:manage_content' %}">➝ Manage Content</a><br>
+               <a href="{% url 'accounts:analytics' %}" class="card-action">➝ View Analytics</a>
             </div>
         </main>
     </div>
