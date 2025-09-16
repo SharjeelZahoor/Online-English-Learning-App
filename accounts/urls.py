@@ -33,6 +33,8 @@ urlpatterns = [
     path("student/assignments/", views.student_assignments, name="student_assignments"),
     path("student/progress/", views.student_progress, name="student_progress"),
     path("student/forum/", views.student_forum, name="student_forum"),
+    path("student/lessons/<int:lesson_id>/", views.student_lesson_detail, name="student_lesson_detail"),
+
 
     
 

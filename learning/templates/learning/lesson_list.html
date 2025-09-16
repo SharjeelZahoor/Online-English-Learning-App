@@ -426,7 +426,7 @@
         <div class="lesson-container">
             <!-- Lesson Header -->
             <div class="lesson-header">
-                <h1>{{ lesson.title }}</h1>
+                <h1><a style="text-decoration: none;" href="{% url 'accounts:student_lesson_detail' lesson.id %}">{{ lesson.title }}</a></h1>
                 <div class="lesson-meta">
                     <div class="lesson-meta-item">
                         <i class="fas fa-book"></i>
@@ -454,17 +454,18 @@
             {% if lesson.video_url or lesson.audio_url %}
             <div class="media-section">
                 <div class="media-grid">
-                    {% if lesson.video_url %}
-                    <div class="media-card">
-                        <div class="media-card-header">
-                            <i class="fas fa-video"></i>
-                            Lesson Video
-                        </div>
-                        <div class="media-card-content">
-                            <iframe src="{{ lesson.video_url }}" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    {% endif %}
+{% if lesson.embed_url %}
+<div class="media-card">
+    <div class="media-card-header">
+        <i class="fas fa-video"></i>
+        Lesson Video
+    </div>
+    <div class="media-card-content">
+        <iframe src="{{ lesson.embed_url }}" frameborder="0" allowfullscreen></iframe>
+    </div>
+</div>
+{% endif %}
+
                     
                     {% if lesson.audio_url %}
                     <div class="media-card">
@@ -486,7 +487,6 @@
             
             <!-- Lesson Detail Actions -->
             <div class="lesson-detail-actions">
-                <h3>{{ lesson.title }}</h3>
                 <div>
                     <a href="{% url 'learning:exercise_list' lesson.id %}" class="btn btn-primary">
                         <i class="fas fa-tasks"></i> View Exercises

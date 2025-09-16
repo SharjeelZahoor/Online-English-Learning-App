@@ -141,52 +141,68 @@
         margin: 0 auto;
     }
     
-    .page-header {
+    .lesson-header {
         margin-bottom: 30px;
     }
     
-    .page-title {
-        font-size: 32px;
+    .lesson-title {
+        font-size: 36px;
         font-weight: 700;
         color: var(--secondary-color);
-        margin-bottom: 10px;
+        margin-bottom: 15px;
         display: flex;
         align-items: center;
     }
     
-    .page-title i {
+    .lesson-title i {
         margin-right: 15px;
         color: var(--primary-color);
-        font-size: 28px;
+        font-size: 32px;
     }
     
-    .page-description {
-        color: var(--text-secondary);
+    .lesson-content {
+        background-color: var(--card-bg);
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+        margin-bottom: 30px;
+        line-height: 1.8;
         font-size: 18px;
-        line-height: 1.6;
+        color: var(--text-secondary);
+        border-left: 4px solid var(--primary-color);
     }
     
-    .courses-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-        gap: 25px;
+    .lesson-content p {
+        margin-bottom: 20px;
     }
     
-    .course-card {
+    .lesson-content p:last-child {
+        margin-bottom: 0;
+    }
+    
+    .lesson-media {
+        margin-bottom: 30px;
+    }
+    
+    .lesson-image {
+        width: 100%;
+        max-width: 800px;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        display: block;
+        margin: 0 auto 20px;
+    }
+    
+    .media-section {
         background-color: var(--card-bg);
         border-radius: 16px;
         padding: 25px;
         box-shadow: var(--shadow);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border-left: 4px solid var(--primary-color);
+        margin-bottom: 30px;
     }
     
-    .course-card:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-hover);
-    }
-    
-    .course-title {
+    .media-title {
         font-size: 22px;
         font-weight: 600;
         color: var(--text-primary);
@@ -195,83 +211,85 @@
         align-items: center;
     }
     
-    .course-title i {
+    .media-title i {
         margin-right: 10px;
         color: var(--primary-color);
         font-size: 20px;
     }
     
-    .lessons-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        height: 0;
+        overflow: hidden;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
     }
     
-    .lesson-item {
-        padding: 15px 0;
-        border-bottom: 1px solid var(--border);
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 12px;
+    }
+    
+    .audio-container {
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        background-color: rgba(159, 122, 234, 0.1);
+        padding: 20px;
+        border-radius: 12px;
+        margin-top: 15px;
     }
     
-    .lesson-item:last-child {
-        border-bottom: none;
+    .audio-container i {
+        font-size: 24px;
+        color: var(--primary-color);
+        margin-right: 15px;
     }
     
-    .lesson-title {
-        font-weight: 500;
-        color: var(--text-primary);
-        font-size: 16px;
+    .audio-container audio {
+        flex: 1;
+    }
+    
+    .lesson-actions {
+        text-align: center;
+        margin-top: 40px;
     }
     
     .lesson-link {
         display: inline-flex;
         align-items: center;
-        padding: 8px 15px;
-        background-color: rgba(159, 122, 234, 0.1);
-        color: var(--primary-color);
+        padding: 15px 30px;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: white;
         text-decoration: none;
-        border-radius: 6px;
-        font-weight: 500;
-        font-size: 14px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 18px;
+        box-shadow: 0 4px 6px rgba(159, 122, 234, 0.2);
         transition: all 0.3s ease;
     }
     
     .lesson-link:hover {
-        background-color: rgba(159, 122, 234, 0.2);
-        color: var(--primary-dark);
+        background: linear-gradient(135deg, var(--primary-dark), #6b46c1);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 8px rgba(159, 122, 234, 0.3);
     }
     
     .lesson-link i {
-        margin-left: 6px;
-        font-size: 12px;
+        margin-left: 10px;
+        font-size: 16px;
     }
     
-    .empty-state {
-        text-align: center;
-        padding: 40px 20px;
-        background-color: var(--card-bg);
-        border-radius: 16px;
-        box-shadow: var(--shadow);
-    }
-    
-    .empty-state i {
-        font-size: 48px;
-        color: var(--text-light);
-        margin-bottom: 15px;
-    }
-    
-    .empty-state p {
-        color: var(--text-secondary);
-        font-size: 18px;
-    }
-    
-    .no-lessons {
-        text-align: center;
-        padding: 20px;
-        color: var(--text-light);
-        font-style: italic;
+    .divider {
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--border), transparent);
+        margin: 40px 0;
+        border: none;
     }
     
     @media (max-width: 768px) {
@@ -295,18 +313,17 @@
             padding: 20px;
         }
         
-        .page-title {
-            font-size: 24px;
+        .lesson-title {
+            font-size: 28px;
         }
         
-        .courses-grid {
-            grid-template-columns: 1fr;
+        .lesson-content {
+            padding: 20px;
+            font-size: 16px;
         }
         
-        .lesson-item {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
+        .media-section {
+            padding: 20px;
         }
         
         .lesson-link {
@@ -333,7 +350,7 @@
             <i class="fas fa-tachometer-alt"></i>
             Dashboard
         </a>
-        <a href="{% url 'accounts:student_lessons' %}" class="nav-link active">
+        <a href="{% url 'accounts:student_lessons' %}" class="nav-link">
             <i class="fas fa-book-open"></i>
             View Lessons
         </a>
@@ -357,49 +374,58 @@
     
     <main class="main-content">
         <div class="container1">
-            <div class="page-header">
-                <h1 class="page-title">
+            <div class="lesson-header">
+                <h1 class="lesson-title">
                     <i class="fas fa-book-open"></i>
-                    My Lessons
+                    {{ lesson.title }}
                 </h1>
-                <p class="page-description">Browse lessons under your enrolled courses.</p>
             </div>
 
-            {% if courses %}
-                <div class="courses-grid">
-                    {% for course in courses %}
-                        <div class="course-card">
-                            <h2 class="course-title">
-                                <i class="fas fa-book"></i>
-                                {{ course.title }}
-                            </h2>
-{% if course.lessons.all %}
-<ul class="lessons-list">
-    {% for lesson in course.lessons.all %}
-        <li class="lesson-item">
-            <a href="{% url 'accounts:student_lesson_detail' lesson.id %}" class="lesson-title">
-                {{ lesson.title }}
-            </a>
-            <a href="{% url 'learning:exercise_list' lesson.id %}" class="lesson-link">
-                Go to Exercises <i class="fas fa-arrow-right"></i>
-            </a>
-        </li>
-    {% endfor %}
-</ul>
+            <div class="lesson-content">
+                <p>{{ lesson.content }}</p>
+            </div>
 
-{% else %}
-    <div class="no-lessons">No lessons available in this course.</div>
-{% endif %}
-
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="empty-state">
-                    <i class="fas fa-book-open"></i>
-                    <p>You are not enrolled in any courses yet.</p>
+            {% if lesson.image %}
+                <div class="lesson-media">
+                    <img src="{{ lesson.image.url }}" alt="{{ lesson.title }}" class="lesson-image">
                 </div>
             {% endif %}
+
+{% if lesson.embed_url %}
+    <h3>Video</h3>
+    <iframe width="560" height="315"
+        src="{{ lesson.embed_url }}"
+        frameborder="0"
+        allowfullscreen>
+    </iframe>
+{% endif %}
+
+
+
+
+            {% if lesson.audio_url %}
+                <div class="media-section">
+                    <h3 class="media-title">
+                        <i class="fas fa-volume-up"></i>
+                        Audio
+                    </h3>
+                    <div class="audio-container">
+                        <i class="fas fa-headphones"></i>
+                        <audio controls>
+                            <source src="{{ lesson.audio_url }}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+            {% endif %}
+
+            <hr class="divider">
+            
+            <div class="lesson-actions">
+                <a href="{% url 'learning:exercise_list' lesson.id %}" class="lesson-link">
+                    Go to Exercises <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
         </div>
     </main>
 </div>

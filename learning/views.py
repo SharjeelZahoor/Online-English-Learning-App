@@ -52,7 +52,26 @@ from .forms import LessonForm
 def lesson_list(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     lessons = course.lessons.all().order_by("order")
+
+    # fix video URLs for embedding
+    for lesson in lessons:
+        if lesson.video_url:
+            url = lesson.video_url.strip()
+            if "watch?v=" in url:
+                video_id = url.split("watch?v=")[-1].split("&")[0]
+                lesson.embed_url = f"https://www.youtube.com/embed/{video_id}"
+            elif "youtu.be/" in url:
+                video_id = url.split("youtu.be/")[-1].split("?")[0]
+                lesson.embed_url = f"https://www.youtube.com/embed/{video_id}"
+            elif "embed/" in url:
+                lesson.embed_url = url
+            else:
+                lesson.embed_url = None
+        else:
+            lesson.embed_url = None
+
     return render(request, "learning/lesson_list.html", {"course": course, "lessons": lessons})
+
 
 # Create a lesson
 def lesson_create(request, course_id):

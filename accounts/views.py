@@ -197,7 +197,7 @@ def student_dashboard(request):
 
 @login_required
 def student_lessons(request):
-    courses = Course.objects.prefetch_related("lesson_set").all()
+    courses = Course.objects.prefetch_related("lessons").all()
     return render(request, "accounts/student_lessons.html", {"courses": courses})
 
 @login_required
@@ -212,3 +212,21 @@ def student_progress(request):
 def student_forum(request):
     return render(request, "accounts/student_forum.html")
 
+
+def student_lesson_detail(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+
+    embed_url = None
+    if lesson.video_url:
+        url = lesson.video_url.strip()
+        if "watch?v=" in url:
+            video_id = url.split("watch?v=")[-1].split("&")[0]
+            embed_url = f"https://www.youtube.com/embed/{video_id}"
+        elif "youtu.be/" in url:
+            video_id = url.split("youtu.be/")[-1].split("?")[0]
+            embed_url = f"https://www.youtube.com/embed/{video_id}"
+        elif "embed/" in url:
+            embed_url = url  # already embed
+    lesson.embed_url = embed_url
+
+    return render(request, "accounts/student_lesson_detail.html", {"lesson": lesson})
