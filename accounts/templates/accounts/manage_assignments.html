@@ -1,0 +1,267 @@
+{% extends "core/home.html" %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-color: #48bb78;
+        --primary-dark: #38a169;
+        --secondary-color: #2c5282;
+        --accent-color: #63b3ed;
+        --background: #f8fafc;
+        --card-bg: #ffffff;
+        --text-primary: #2d3748;
+        --text-secondary: #4a5568;
+        --text-light: #718096;
+        --border: #e2e8f0;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    body {
+        background-color: var(--background);
+        color: var(--text-primary);
+        font-family: 'Poppins', sans-serif;
+        min-height: 100vh;
+    }
+    
+    .header {
+        background-color: var(--secondary-color);
+        color: white;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .logo {
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        font-weight: 700;
+        color: white;
+    }
+    
+    .logo i {
+        margin-right: 10px;
+        color: var(--accent-color);
+        font-size: 28px;
+    }
+    
+    .user-info {
+        display: flex;
+        align-items: center;
+    }
+    
+    .user-info p {
+        margin-right: 15px;
+        font-weight: 500;
+    }
+    
+    .user-role {
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    
+    .container {
+        display: flex;
+        flex: 1;
+    }
+    
+    .sidebar {
+        width: 260px;
+        background-color: var(--card-bg);
+        padding: 30px 0;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+        height: calc(100vh - 70px);
+        position: sticky;
+        top: 70px;
+    }
+    
+    .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 15px 30px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+        position: relative;
+    }
+    
+    .nav-link:hover {
+        background-color: rgba(72, 187, 120, 0.1);
+        color: var(--primary-color);
+        border-left: 3px solid var(--primary-color);
+    }
+    
+    .nav-link.active {
+        background-color: rgba(72, 187, 120, 0.1);
+        color: var(--primary-color);
+        border-left: 3px solid var(--primary-color);
+        font-weight: 600;
+    }
+    
+    .nav-link i {
+        margin-right: 15px;
+        font-size: 18px;
+        color: var(--primary-color);
+        width: 20px;
+        text-align: center;
+    }
+    
+    .nav-link.logout {
+        margin-top: auto;
+        color: #e53e3e;
+    }
+    
+    .nav-link.logout i {
+        color: #e53e3e;
+    }
+    
+    .nav-link.logout:hover {
+        background-color: rgba(229, 62, 62, 0.1);
+        color: #c53030;
+        border-left: 3px solid #e53e3e;
+    }
+    
+    .main-content {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+    }
+    
+    .page-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--secondary-color);
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .page-title i {
+        margin-right: 15px;
+        color: var(--primary-color);
+        font-size: 28px;
+    }
+    
+    .content-card {
+        background-color: var(--card-bg);
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+        margin-bottom: 30px;
+    }
+    
+    .content-card p {
+        color: var(--text-secondary);
+        font-size: 18px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+    
+    .placeholder-content {
+        background-color: #f7fafc;
+        border-radius: 12px;
+        padding: 40px;
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .placeholder-icon {
+        font-size: 64px;
+        color: #cbd5e0;
+        margin-bottom: 20px;
+    }
+    
+    .placeholder-text {
+        color: var(--text-light);
+        font-size: 18px;
+    }
+    
+    @media (max-width: 768px) {
+        .container {
+            flex-direction: column;
+        }
+        
+        .sidebar {
+            width: 100%;
+            height: auto;
+            position: relative;
+            top: 0;
+            padding: 15px 0;
+        }
+        
+        .nav-link {
+            padding: 12px 20px;
+        }
+        
+        .main-content {
+            padding: 15px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+        }
+    }
+</style>
+
+<div class="header">
+    <div class="logo">
+        <i class="fas fa-globe-americas"></i>
+        English Learning App
+    </div>
+    <div class="user-info">
+        <p>{{ request.user.email }}</p>
+        <span class="user-role">Teacher</span>
+    </div>
+</div>
+
+<div class="container">
+    <nav class="sidebar">
+        <a href="#" class="nav-link">
+            <i class="fas fa-tachometer-alt"></i>
+            Dashboard
+        </a>
+        <a href="#" class="nav-link active">
+            <i class="fas fa-tasks"></i>
+            Assignments
+        </a>
+        <a href="{% url 'accounts:student_progress' %}" class="nav-link">
+            <i class="fas fa-chart-line"></i>
+            Student Progress
+        </a>
+        <a href="{% url 'accounts:live_sessions' %}" class="nav-link">
+            <i class="fas fa-video"></i>
+            Live Sessions
+        </a>
+        <a href="{% url 'accounts:logout' %}" class="nav-link logout">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+        </a>
+    </nav>
+    
+    <main class="main-content">
+        <h1 class="page-title">
+            <i class="fas fa-tasks"></i>
+            Manage Assignments
+        </h1>
+        
+        <div class="content-card">
+            <p>This is where teachers can create and manage assignments. (Prototype placeholder)</p>
+            
+            <div class="placeholder-content">
+                <i class="fas fa-tasks placeholder-icon"></i>
+                <p class="placeholder-text">This is a prototype placeholder for the assignment management system.</p>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

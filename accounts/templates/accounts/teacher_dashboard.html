@@ -1,666 +1,490 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Dashboard | English Learning App</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        :root {
-            --primary-color: #48bb78;
-            --primary-dark: #38a169;
-            --secondary-color: #2c5282;
-            --accent-color: #63b3ed;
-            --background: #f8fafc;
-            --card-bg: #ffffff;
-            --text-primary: #2d3748;
-            --text-secondary: #4a5568;
-            --text-light: #718096;
-            --border: #e2e8f0;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        body {
-            background-color: var(--background);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .header {
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            font-size: 24px;
-            font-weight: 700;
-        }
-        
-        .logo i {
-            margin-right: 10px;
-            color: var(--accent-color);
-            font-size: 28px;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-        }
-        
-        .user-info p {
-            margin-right: 15px;
-            font-weight: 500;
-        }
-        
-        .user-role {
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
+{% extends "core/home.html" %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-color: #48bb78;
+        --primary-dark: #38a169;
+        --secondary-color: #2c5282;
+        --accent-color: #63b3ed;
+        --background: #f8fafc;
+        --card-bg: #ffffff;
+        --text-primary: #2d3748;
+        --text-secondary: #4a5568;
+        --text-light: #718096;
+        --border: #e2e8f0;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    body {
+        background-color: var(--background);
+        color: var(--text-primary);
+        font-family: 'Poppins', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .header {
+        background-color: var(--secondary-color);
+        color: white;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .logo {
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        font-weight: 700;
+        color: white; /* Changed to white for visibility */
+    }
+    
+    .logo i {
+        margin-right: 10px;
+        color: var(--accent-color);
+        font-size: 28px;
+    }
+    
+    .user-info {
+        display: flex;
+        align-items: center;
+    }
+    
+    .user-info p {
+        margin-right: 15px;
+        font-weight: 500;
+    }
+    
+    .user-role {
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    
+    .container {
+        display: flex;
+        flex: 1;
+    }
+    
+    .sidebar {
+        width: 260px;
+        background-color: var(--card-bg);
+        padding: 30px 0;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+        height: calc(100vh - 70px);
+        position: sticky;
+        top: 70px;
+    }
+    
+    .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 15px 30px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+        position: relative;
+    }
+    
+    .nav-link:hover {
+        background-color: rgba(72, 187, 120, 0.1);
+        color: var(--primary-color);
+        border-left: 3px solid var(--primary-color);
+    }
+    
+    .nav-link.active {
+        background-color: rgba(72, 187, 120, 0.1);
+        color: var(--primary-color);
+        border-left: 3px solid var(--primary-color);
+        font-weight: 600;
+    }
+    
+    .nav-link i {
+        margin-right: 15px;
+        font-size: 18px;
+        color: var(--primary-color);
+        width: 20px;
+        text-align: center;
+    }
+    
+    .nav-link.logout {
+        margin-top: auto;
+        color: #e53e3e;
+    }
+    
+    .nav-link.logout i {
+        color: #e53e3e;
+    }
+    
+    .nav-link.logout:hover {
+        background-color: rgba(229, 62, 62, 0.1);
+        color: #c53030;
+        border-left: 3px solid #e53e3e;
+    }
+    
+    .main-content {
+        flex: 1;
+        padding: 20px; /* Reduced from 30px to 20px */
+        overflow-y: auto;
+    }
+    
+    .page-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--secondary-color);
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .page-title i {
+        margin-right: 15px;
+        color: var(--primary-color);
+    }
+    
+    .welcome-card {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: white;
+        border-radius: 16px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .welcome-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        transform: translate(50px, -50px);
+    }
+    
+    .welcome-card h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .welcome-card p {
+        font-size: 16px;
+        opacity: 0.9;
+        max-width: 80%;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+    
+    .dashboard-card {
+        background-color: var(--card-bg);
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-hover);
+    }
+    
+    .card-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        background-color: rgba(72, 187, 120, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+    }
+    
+    .card-icon i {
+        font-size: 24px;
+        color: var(--primary-color);
+    }
+    
+    .card-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+    
+    .card-description {
+        color: var(--text-secondary);
+        margin-bottom: 20px;
+        line-height: 1.5;
+        flex-grow: 1;
+    }
+    
+    .card-action {
+        display: inline-block;
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: color 0.3s ease;
+        margin-top: auto;
+    }
+    
+    .card-action:hover {
+        color: var(--primary-dark);
+    }
+    
+    .recent-activity {
+        background-color: var(--card-bg);
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: var(--shadow);
+        margin-bottom: 30px;
+    }
+    
+    .section-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .section-title i {
+        margin-right: 10px;
+        color: var(--primary-color);
+    }
+    
+    .activity-list {
+        list-style: none;
+    }
+    
+    .activity-item {
+        padding: 15px 0;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+    }
+    
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+    
+    .activity-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: rgba(72, 187, 120, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+    }
+    
+    .activity-icon i {
+        font-size: 16px;
+        color: var(--primary-color);
+    }
+    
+    .activity-content {
+        flex: 1;
+    }
+    
+    .activity-title {
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 3px;
+    }
+    
+    .activity-time {
+        font-size: 12px;
+        color: var(--text-light);
+    }
+    
+    @media (max-width: 768px) {
         .container {
-            display: flex;
-            flex: 1;
+            flex-direction: column;
         }
         
         .sidebar {
-            width: 260px;
-            background-color: var(--card-bg);
-            padding: 30px 0;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-            height: calc(100vh - 70px);
-            position: sticky;
-            top: 70px;
+            width: 100%;
+            height: auto;
+            position: relative;
+            top: 0;
+            padding: 15px 0;
         }
         
         .nav-link {
-            display: flex;
-            align-items: center;
-            padding: 15px 30px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-            position: relative;
-        }
-        
-        .nav-link:hover {
-            background-color: rgba(72, 187, 120, 0.1);
-            color: var(--primary-color);
-            border-left: 3px solid var(--primary-color);
-        }
-        
-        .nav-link.active {
-            background-color: rgba(72, 187, 120, 0.1);
-            color: var(--primary-color);
-            border-left: 3px solid var(--primary-color);
-            font-weight: 600;
-        }
-        
-        .nav-link i {
-            margin-right: 15px;
-            font-size: 18px;
-            color: var(--primary-color);
-            width: 20px;
-            text-align: center;
-        }
-        
-        .nav-link.logout {
-            margin-top: auto;
-            color: #e53e3e;
-        }
-        
-        .nav-link.logout i {
-            color: #e53e3e;
-        }
-        
-        .nav-link.logout:hover {
-            background-color: rgba(229, 62, 62, 0.1);
-            color: #c53030;
-            border-left: 3px solid #e53e3e;
+            padding: 12px 20px;
         }
         
         .main-content {
-            flex: 1;
-            padding: 30px;
-            overflow-y: auto;
-        }
-        
-        .welcome-card {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .welcome-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 200px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transform: translate(50px, -50px);
+            padding: 15px; /* Further reduced for mobile */
         }
         
         .welcome-card h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
+            font-size: 24px;
         }
         
         .welcome-card p {
-            font-size: 16px;
-            opacity: 0.9;
-            max-width: 80%;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-        
-        .stat-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            background-color: rgba(72, 187, 120, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 20px;
-        }
-        
-        .stat-icon i {
-            font-size: 24px;
-            color: var(--primary-color);
-        }
-        
-        .stat-content h3 {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 5px;
-        }
-        
-        .stat-content p {
-            color: var(--text-light);
-            font-size: 14px;
+            max-width: 100%;
         }
         
         .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
+            grid-template-columns: 1fr;
         }
-        
-        .dashboard-card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-        
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .card-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            background-color: rgba(72, 187, 120, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-        }
-        
-        .card-icon i {
-            font-size: 24px;
-            color: var(--primary-color);
-        }
-        
-        .card-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        
-        .card-description {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            line-height: 1.5;
-            flex-grow: 1;
-        }
-        
-        .card-action {
-            display: inline-block;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: color 0.3s ease;
-            margin-top: auto;
-        }
-        
-        .card-action:hover {
-            color: var(--primary-dark);
-        }
-        
-        .recent-activity {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            margin-bottom: 30px;
-        }
-        
-        .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .section-title i {
-            margin-right: 10px;
-            color: var(--primary-color);
-        }
-        
-        .activity-list {
-            list-style: none;
-        }
-        
-        .activity-item {
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-        }
-        
-        .activity-item:last-child {
-            border-bottom: none;
-        }
-        
-        .activity-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: rgba(72, 187, 120, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-        }
-        
-        .activity-icon i {
-            font-size: 16px;
-            color: var(--primary-color);
-        }
-        
-        .activity-content {
-            flex: 1;
-        }
-        
-        .activity-title {
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 3px;
-        }
-        
-        .activity-time {
-            font-size: 12px;
-            color: var(--text-light);
-        }
-        
-        .footer {
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 20px 30px;
-            text-align: center;
-            font-size: 14px;
-        }
-        
-        @media (max-width: 1024px) {
-            .sidebar {
-                width: 220px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-                top: 0;
-                padding: 15px 0;
-            }
-            
-            .nav-link {
-                padding: 12px 20px;
-            }
-            
-            .main-content {
-                padding: 20px;
-            }
-            
-            .welcome-card h1 {
-                font-size: 24px;
-            }
-            
-            .welcome-card p {
-                max-width: 100%;
-            }
-            
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <div class="logo">
-            <i class="fas fa-globe-americas"></i>
-            English Learning App
-        </div>
-        <div class="user-info">
-            <p>{{ request.user.email }}</p>
-            <span class="user-role">{{ request.user.role }}</span>
-        </div>
+    }
+</style>
+
+<div class="header">
+    <div class="logo">
+        <i class="fas fa-globe-americas"></i>
+        English Learning App
     </div>
+    <div class="user-info">
+        <p>{{ request.user.email }}</p>
+        <span class="user-role">Teacher</span>
+    </div>
+</div>
+
+<div class="container">
+    <nav class="sidebar">
+        <a href="#" class="nav-link active">
+            <i class="fas fa-tachometer-alt"></i>
+            Dashboard
+        </a>
+        <a href="{% url 'accounts:manage_assignments' %}" class="nav-link">
+            <i class="fas fa-tasks"></i>
+            Assignments
+        </a>
+        <a href="{% url 'accounts:student_progress' %}" class="nav-link">
+            <i class="fas fa-chart-line"></i>
+            Student Progress
+        </a>
+        <a href="{% url 'accounts:live_sessions' %}" class="nav-link">
+            <i class="fas fa-video"></i>
+            Live Sessions
+        </a>
+        <a href="{% url 'accounts:logout' %}" class="nav-link logout">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+        </a>
+    </nav>
     
-    <div class="container">
-        <nav class="sidebar">
-            <a href="#" class="nav-link active">
-                <i class="fas fa-tachometer-alt"></i>
-                Dashboard
-            </a>
-            <a href="#" class="nav-link">
-                <i class="fas fa-tasks"></i>
-                Create Assignments
-            </a>
-            <a href="#" class="nav-link">
-                <i class="fas fa-chart-line"></i>
-                View Student Progress
-            </a>
-            <a href="#" class="nav-link">
-                <i class="fas fa-video"></i>
-                Host Live Sessions
-            </a>
-            <a href="#" class="nav-link">
-                <i class="fas fa-book"></i>
-                Course Materials
-            </a>
-            <a href="#" class="nav-link">
-                <i class="fas fa-calendar-alt"></i>
-                Schedule
-            </a>
-            <a href="{% url 'accounts:logout' %}" class="nav-link logout">
-                <i class="fas fa-sign-out-alt"></i>
-                Logout
-            </a>
-        </nav>
+    <main class="main-content">
+        <h1 class="page-title">
+            <i class="fas fa-chalkboard-teacher"></i>
+            Teacher Dashboard
+        </h1>
         
-        <main class="main-content">
-            <div class="welcome-card">
-                <h1>Welcome, Teacher!</h1>
-                <p>Manage your classes, create assignments, and track student progress all in one place.</p>
-            </div>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>42</h3>
-                        <p>Active Students</p>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-book-open"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>8</h3>
-                        <p>Courses</p>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
+        <div class="welcome-card">
+            <h1>Welcome, Teacher!</h1>
+            <p>Manage your assignments, monitor student progress, and host live sessions all in one place.</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Manage Assignments -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">
                         <i class="fas fa-tasks"></i>
                     </div>
-                    <div class="stat-content">
-                        <h3>24</h3>
-                        <p>Assignments</p>
-                    </div>
+                    <h3 class="card-title">Assignments</h3>
                 </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
+                <p class="card-description">Create and manage assignments for your students.</p>
+                <a href="{% url 'accounts:manage_assignments' %}" class="card-action">Go to Assignments →</a>
+            </div>
+
+            <!-- Monitor Progress -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="card-title">Student Progress</h3>
+                </div>
+                <p class="card-description">Track students' learning progress and performance.</p>
+                <a href="{% url 'accounts:student_progress' %}" class="card-action">View Progress →</a>
+            </div>
+
+            <!-- Live Sessions -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">
                         <i class="fas fa-video"></i>
                     </div>
-                    <div class="stat-content">
-                        <h3>6</h3>
-                        <p>Live Sessions</p>
-                    </div>
+                    <h3 class="card-title">Live Sessions</h3>
                 </div>
+                <p class="card-description">Host and manage live interactive classes with your students.</p>
+                <a href="{% url 'accounts:live_sessions' %}" class="card-action">Go to Live Sessions →</a>
             </div>
-            
-            <div class="dashboard-grid">
-                <!-- Manage Courses -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-book"></i>
-                        </div>
-                        <h3 class="card-title">Manage Courses</h3>
+        </div>
+
+        <div class="recent-activity">
+            <h2 class="section-title">
+                <i class="fas fa-history"></i>
+                Recent Activity
+            </h2>
+            <ul class="activity-list">
+                <li class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-file-alt"></i>
                     </div>
-                    <p class="card-description">Add, update, or delete courses for your platform.</p>
-                    <a href="{% url 'learning:course_list' %}" class="card-action">View Courses →</a>
-                </div>
-                
-                <!-- Manage Lessons -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </div>
-                        <h3 class="card-title">Manage Lessons</h3>
+                    <div class="activity-content">
+                        <div class="activity-title">Assignment "Grammar Basics" submitted by 10 students</div>
+                        <div class="activity-time">2 hours ago</div>
                     </div>
-                    <p class="card-description">Add, update, or delete lessons for different courses.</p>
-                    {% if courses %}
-                        {% for course in courses %}
-                            <a href="{% url 'learning:lesson_list' course.id %}" class="card-action">{{ course.name }} Lessons →</a><br>
-                        {% endfor %}
-                    {% else %}
-                        <p>No courses found. Add courses first.</p>
-                    {% endif %}
-                </div>
-                
-                <!-- Manage Exercises -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-pencil-alt"></i>
-                        </div>
-                        <h3 class="card-title">Manage Exercises</h3>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-chart-line"></i>
                     </div>
-                    <p class="card-description">Create exercises linked to lessons for students.</p>
-                    {% if lessons %}
-                        {% for lesson in lessons %}
-                            <a href="{% url 'learning:exercise_list' lesson.id %}" class="card-action">{{ lesson.title }} Exercises →</a><br>
-                        {% endfor %}
-                    {% else %}
-                        <p>No lessons found. Add lessons first.</p>
-                    {% endif %}
-                </div>
-                
-                <!-- Create Assignments -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-tasks"></i>
-                        </div>
-                        <h3 class="card-title">Create Assignments</h3>
+                    <div class="activity-content">
+                        <div class="activity-title">Progress report generated for "Business English"</div>
+                        <div class="activity-time">Yesterday</div>
                     </div>
-                    <p class="card-description">Design and assign engaging English learning activities to your students.</p>
-                    <a href="#" class="card-action">Create New Assignment →</a>
-                </div>
-                
-                <!-- Student Progress -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3 class="card-title">Student Progress</h3>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-video"></i>
                     </div>
-                    <p class="card-description">Monitor individual and class-wide progress on assignments and courses.</p>
-                    <a href="#" class="card-action">View Progress Reports →</a>
-                </div>
-                
-                <!-- Live Sessions -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-video"></i>
-                        </div>
-                        <h3 class="card-title">Live Sessions</h3>
+                    <div class="activity-content">
+                        <div class="activity-title">Live session "Conversation Practice" completed</div>
+                        <div class="activity-time">2 days ago</div>
                     </div>
-                    <p class="card-description">Schedule and host live video sessions with your students for interactive learning.</p>
-                    <a href="#" class="card-action">Host a Session →</a>
-                </div>
-            </div>
-            
-            <div class="recent-activity">
-                <h2 class="section-title">
-                    <i class="fas fa-history"></i>
-                    Recent Activity
-                </h2>
-                <ul class="activity-list">
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-user-plus"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">New student enrolled in Business English course</div>
-                            <div class="activity-time">2 hours ago</div>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-file-alt"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Assignment "Grammar Review" submitted by 12 students</div>
-                            <div class="activity-time">5 hours ago</div>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-video"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Live session "Conversation Practice" completed</div>
-                            <div class="activity-time">Yesterday</div>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-book"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">New lesson "Advanced Vocabulary" added</div>
-                            <div class="activity-time">2 days ago</div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </main>
-    </div>
-    
-    <div class="footer">
-        <p>© 2023 English Learning App. All rights reserved. | Teacher Dashboard</p>
-    </div>
-</body>
-</html>
+                </li>
+            </ul>
+        </div>
+    </main>
+</div>
+{% endblock %}

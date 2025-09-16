@@ -11,17 +11,27 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     
     path("dashboard-redirect/", views.dashboard_redirect, name="dashboard_redirect"),
-    path("admin/dashboard/", views.admin_dashboard, name="admin_dashboard"),
-    path("teacher/dashboard/", views.teacher_dashboard, name="teacher_dashboard"),
-    path("student/dashboard/", views.student_dashboard, name="student_dashboard"),
-    path("manage-content/", views.manage_content, name="manage_content"),
     
+    #admin related urls
+    path("admin/dashboard/", views.admin_dashboard, name="admin_dashboard"),
     path("users/", views.user_list, name="user_list"),
     path("users/create/", views.user_create, name="user_create"),
     path("users/<int:user_id>/edit/", views.user_edit, name="user_edit"),
     path("users/<int:user_id>/delete/", views.user_delete, name="user_delete"),
-    
     path("analytics/", views.analytics_view, name="analytics"),
+    path("manage-content/", views.manage_content, name="manage_content"),
+    
+    #teacher related url
+    path("teacher/dashboard/", views.teacher_dashboard, name="teacher_dashboard"),
+    path("manage-assignments/", views.manage_assignments, name="manage_assignments"),
+    path("student-progress/", views.student_progress, name="student_progress"),
+    path("live-sessions/", views.live_sessions, name="live_sessions"),
+    
+    path("student/dashboard/", views.student_dashboard, name="student_dashboard"),
+   
+    
+
+
 
 
 ]

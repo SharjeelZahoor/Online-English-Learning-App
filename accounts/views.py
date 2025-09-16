@@ -60,16 +60,6 @@ def admin_dashboard(request):
     return render(request, "accounts/admin_dashboard.html", {
         "courses": courses
     })
-
-@login_required
-def teacher_dashboard(request):
-    return render(request, "accounts/teacher_dashboard.html")
-
-@login_required
-def student_dashboard(request):
-    return render(request, "accounts/student_dashboard.html")
-
-
 def manage_content(request):
     courses = Course.objects.all()
     lessons = Lesson.objects.all()
@@ -168,3 +158,31 @@ def analytics_view(request):
     }
 
     return render(request, "accounts/analytics.html", {"data": data})
+
+
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+@login_required
+def teacher_dashboard(request):
+    return render(request, "accounts/teacher_dashboard.html")
+
+@login_required
+def manage_assignments(request):
+    return render(request, "accounts/manage_assignments.html")
+
+@login_required
+def student_progress(request):
+    return render(request, "accounts/student_progress.html")
+
+@login_required
+def live_sessions(request):
+    return render(request, "accounts/live_sessions.html")
+
+
+@login_required
+def student_dashboard(request):
+    return render(request, "accounts/student_dashboard.html")
+
+

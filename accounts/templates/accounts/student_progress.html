@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Progress | Teacher Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #48bb78;
+            --primary-dark: #38a169;
+            --secondary-color: #2c5282;
+            --accent-color: #63b3ed;
+            --background: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-light: #718096;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: var(--secondary-color);
+            color: #fff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header .logo {
+            font-size: 22px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .header .logo i {
+            margin-right: 10px;
+            color: var(--accent-color);
+            font-size: 24px;
+        }
+        
+        .header .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header .user-role {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: 15px;
+        }
+        
+        .container {
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        h1 i {
+            margin-right: 15px;
+            color: var(--primary-color);
+            font-size: 28px;
+        }
+        
+        .intro-text {
+            color: var(--text-secondary);
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .progress-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .progress-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .progress-card h3 {
+            margin: 0 0 15px;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .progress-card h3 i {
+            margin-right: 10px;
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+        
+        .progress-card p {
+            margin: 0 0 15px;
+            color: var(--text-secondary);
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .progress-percentage {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+        
+        .progress-bar {
+            background: var(--border);
+            border-radius: 10px;
+            height: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress {
+            height: 12px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+            position: relative;
+        }
+        
+        .progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 30px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+        
+        .back-link:hover {
+            background-color: rgba(72, 187, 120, 0.1);
+            transform: translateX(-5px);
+        }
+        
+        .back-link i {
+            margin-right: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .intro-text {
+                font-size: 16px;
+            }
+            
+            .progress-card {
+                padding: 20px;
+            }
+            
+            .progress-card h3 {
+                font-size: 18px;
+            }
+            
+            .progress-card p {
+                font-size: 14px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .progress-percentage {
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo"><i class="fas fa-chart-line"></i> Teacher Dashboard</div>
+        <div class="user-info">
+            <div>{{ request.user.email }}</div>
+            <span class="user-role">Teacher</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1><i class="fas fa-chart-line"></i> Student Progress Overview</h1>
+        <p class="intro-text">Here teachers can monitor student performance across different courses.</p>
+
+        <div class="progress-card">
+            <h3><i class="fas fa-user-graduate"></i> Ali Khan - Business English</h3>
+            <p>
+                <span>Completed Lessons: 12 / 20</span>
+                <span class="progress-percentage">60%</span>
+            </p>
+            <div class="progress-bar"><div class="progress" style="width: 60%;"></div></div>
+        </div>
+
+        <div class="progress-card">
+            <h3><i class="fas fa-user-graduate"></i> Sara Ahmed - Grammar Basics</h3>
+            <p>
+                <span>Completed Lessons: 8 / 10</span>
+                <span class="progress-percentage">80%</span>
+            </p>
+            <div class="progress-bar"><div class="progress" style="width: 80%;"></div></div>
+        </div>
+
+        <div class="progress-card">
+            <h3><i class="fas fa-user-graduate"></i> John Doe - Vocabulary Builder</h3>
+            <p>
+                <span>Completed Lessons: 5 / 15</span>
+                <span class="progress-percentage">33%</span>
+            </p>
+            <div class="progress-bar"><div class="progress" style="width: 33%;"></div></div>
+        </div>
+
+        <a href="{% url 'accounts:teacher_dashboard' %}" class="back-link"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    </div>
+</body>
+</html>

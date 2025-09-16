@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Sessions | Teacher Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #48bb78;
+            --primary-dark: #38a169;
+            --secondary-color: #2c5282;
+            --accent-color: #63b3ed;
+            --background: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-light: #718096;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: var(--secondary-color);
+            color: #fff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header .logo {
+            font-size: 22px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .header .logo i {
+            margin-right: 10px;
+            color: var(--accent-color);
+            font-size: 24px;
+        }
+        
+        .header .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header .user-role {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: 15px;
+        }
+        
+        .container {
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        h1 i {
+            margin-right: 15px;
+            color: var(--primary-color);
+            font-size: 28px;
+        }
+        
+        .intro-text {
+            color: var(--text-secondary);
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(72, 187, 120, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), #2f855a);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(72, 187, 120, 0.3);
+        }
+        
+        .btn-primary i {
+            margin-right: 8px;
+        }
+        
+        .session-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .session-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .session-info {
+            flex: 1;
+        }
+        
+        .session-card h3 {
+            margin: 0 0 15px;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .session-card h3 i {
+            margin-right: 10px;
+            color: var(--primary-color);
+            font-size: 20px;
+        }
+        
+        .session-meta {
+            display: flex;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .session-meta i {
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+        
+        .session-actions {
+            margin-left: 20px;
+        }
+        
+        .btn-session {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, var(--accent-color), #3182ce);
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 6px rgba(66, 153, 225, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-session:hover {
+            background: linear-gradient(135deg, #3182ce, #2c5282);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(66, 153, 225, 0.3);
+        }
+        
+        .btn-session i {
+            margin-right: 6px;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 30px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+        
+        .back-link:hover {
+            background-color: rgba(72, 187, 120, 0.1);
+            transform: translateX(-5px);
+        }
+        
+        .back-link i {
+            margin-right: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .intro-text {
+                font-size: 16px;
+            }
+            
+            .session-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .session-actions {
+                margin-left: 0;
+                margin-top: 15px;
+                width: 100%;
+            }
+            
+            .btn-session {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo"><i class="fas fa-video"></i> Teacher Dashboard</div>
+        <div class="user-info">
+            <div>{{ request.user.email }}</div>
+            <span class="user-role">Teacher</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1><i class="fas fa-video"></i> Live Sessions</h1>
+        <p class="intro-text">Schedule and host live interactive sessions with your students.</p>
+
+        <a href="#" class="btn-primary"><i class="fas fa-plus"></i> Host New Session</a>
+
+        <div class="session-card">
+            <div class="session-info">
+                <h3><i class="fas fa-comments"></i> Conversation Practice</h3>
+                <div class="session-meta"><i class="fas fa-calendar-alt"></i> Sept 20, 2025</div>
+                <div class="session-meta"><i class="fas fa-clock"></i> 6:00 PM</div>
+            </div>
+            <div class="session-actions">
+                <a href="#" class="btn-session"><i class="fas fa-play"></i> Start Session</a>
+            </div>
+        </div>
+
+        <div class="session-card">
+            <div class="session-info">
+                <h3><i class="fas fa-book-open"></i> Advanced Vocabulary Workshop</h3>
+                <div class="session-meta"><i class="fas fa-calendar-alt"></i> Sept 22, 2025</div>
+                <div class="session-meta"><i class="fas fa-clock"></i> 4:00 PM</div>
+            </div>
+            <div class="session-actions">
+                <a href="#" class="btn-session"><i class="fas fa-play"></i> Start Session</a>
+            </div>
+        </div>
+
+        <a href="{% url 'accounts:teacher_dashboard' %}" class="back-link"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    </div>
+</body>
+</html>
