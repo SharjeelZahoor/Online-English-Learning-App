@@ -1,0 +1,402 @@
+{% extends "core/home.html" %}
+{% block content %}
+<style>
+    :root {
+        --primary-color: #9f7aea;
+        --primary-dark: #805ad5;
+        --secondary-color: #2c5282;
+        --accent-color: #63b3ed;
+        --background: #f8fafc;
+        --card-bg: #ffffff;
+        --text-primary: #2d3748;
+        --text-secondary: #4a5568;
+        --text-light: #718096;
+        --border: #e2e8f0;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    body {
+        background-color: var(--background);
+        color: var(--text-primary);
+        font-family: 'Poppins', sans-serif;
+        min-height: 100vh;
+    }
+    
+    .header {
+        background-color: var(--secondary-color);
+        color: white;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .logo {
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        font-weight: 700;
+        color: white;
+    }
+    
+    .logo i {
+        margin-right: 10px;
+        color: var(--accent-color);
+        font-size: 28px;
+    }
+    
+    .user-info {
+        display: flex;
+        align-items: center;
+    }
+    
+    .user-info p {
+        margin-right: 15px;
+        font-weight: 500;
+    }
+    
+    .user-role {
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    
+    .container {
+        display: flex;
+        flex: 1;
+    }
+    
+    .sidebar {
+        width: 260px;
+        background-color: var(--card-bg);
+        padding: 30px 0;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+        height: calc(100vh - 70px);
+        position: sticky;
+        top: 70px;
+    }
+    
+    .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 15px 30px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+        position: relative;
+    }
+    
+    .nav-link:hover {
+        background-color: rgba(159, 122, 234, 0.1);
+        color: var(--primary-color);
+        border-left: 3px solid var(--primary-color);
+    }
+    
+    .nav-link.active {
+        background-color: rgba(159, 122, 234, 0.1);
+        color: var(--primary-color);
+        border-left: 3px solid var(--primary-color);
+        font-weight: 600;
+    }
+    
+    .nav-link i {
+        margin-right: 15px;
+        font-size: 18px;
+        color: var(--primary-color);
+        width: 20px;
+        text-align: center;
+    }
+    
+    .nav-link.logout {
+        margin-top: auto;
+        color: #e53e3e;
+    }
+    
+    .nav-link.logout i {
+        color: #e53e3e;
+    }
+    
+    .nav-link.logout:hover {
+        background-color: rgba(229, 62, 62, 0.1);
+        color: #c53030;
+        border-left: 3px solid #e53e3e;
+    }
+    
+    .main-content {
+        flex: 1;
+        padding: 30px;
+        overflow-y: auto;
+    }
+    
+    .container1 {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .page-header {
+        margin-bottom: 30px;
+    }
+    
+    .page-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--secondary-color);
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .page-title i {
+        margin-right: 15px;
+        color: var(--primary-color);
+        font-size: 28px;
+    }
+    
+    .page-description {
+        color: var(--text-secondary);
+        font-size: 18px;
+        line-height: 1.6;
+    }
+    
+    .courses-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 25px;
+    }
+    
+    .course-card {
+        background-color: var(--card-bg);
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-left: 4px solid var(--primary-color);
+    }
+    
+    .course-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-hover);
+    }
+    
+    .course-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .course-title i {
+        margin-right: 10px;
+        color: var(--primary-color);
+        font-size: 20px;
+    }
+    
+    .lessons-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .lesson-item {
+        padding: 15px 0;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .lesson-item:last-child {
+        border-bottom: none;
+    }
+    
+    .lesson-title {
+        font-weight: 500;
+        color: var(--text-primary);
+        font-size: 16px;
+    }
+    
+    .lesson-link {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 15px;
+        background-color: rgba(159, 122, 234, 0.1);
+        color: var(--primary-color);
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+    
+    .lesson-link:hover {
+        background-color: rgba(159, 122, 234, 0.2);
+        color: var(--primary-dark);
+    }
+    
+    .lesson-link i {
+        margin-left: 6px;
+        font-size: 12px;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        background-color: var(--card-bg);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+    }
+    
+    .empty-state i {
+        font-size: 48px;
+        color: var(--text-light);
+        margin-bottom: 15px;
+    }
+    
+    .empty-state p {
+        color: var(--text-secondary);
+        font-size: 18px;
+    }
+    
+    .no-lessons {
+        text-align: center;
+        padding: 20px;
+        color: var(--text-light);
+        font-style: italic;
+    }
+    
+    @media (max-width: 768px) {
+        .container {
+            flex-direction: column;
+        }
+        
+        .sidebar {
+            width: 100%;
+            height: auto;
+            position: relative;
+            top: 0;
+            padding: 15px 0;
+        }
+        
+        .nav-link {
+            padding: 12px 20px;
+        }
+        
+        .main-content {
+            padding: 20px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+        }
+        
+        .courses-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .lesson-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .lesson-link {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="header">
+    <div class="logo">
+        <i class="fas fa-globe-americas"></i>
+        English Learning App
+    </div>
+    <div class="user-info">
+        <p>{{ request.user.email }}</p>
+        <span class="user-role">Student</span>
+    </div>
+</div>
+
+<div class="container">
+    <nav class="sidebar">
+        <a href="{% url 'accounts:student_dashboard' %}" class="nav-link">
+            <i class="fas fa-tachometer-alt"></i>
+            Dashboard
+        </a>
+        <a href="{% url 'accounts:student_lessons' %}" class="nav-link active">
+            <i class="fas fa-book-open"></i>
+            View Lessons
+        </a>
+        <a href="{% url 'accounts:student_assignments' %}" class="nav-link">
+            <i class="fas fa-file-alt"></i>
+            Submit Assignments
+        </a>
+        <a href="{% url 'accounts:student_progress' %}" class="nav-link">
+            <i class="fas fa-chart-line"></i>
+            Track Progress
+        </a>
+        <a href="{% url 'accounts:student_forum' %}" class="nav-link">
+            <i class="fas fa-comments"></i>
+            Peer Forum
+        </a>
+        <a href="{% url 'accounts:logout' %}" class="nav-link logout">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+        </a>
+    </nav>
+    
+    <main class="main-content">
+        <div class="container1">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="fas fa-book-open"></i>
+                    My Lessons
+                </h1>
+                <p class="page-description">Browse lessons under your enrolled courses.</p>
+            </div>
+
+            {% if courses %}
+                <div class="courses-grid">
+                    {% for course in courses %}
+                        <div class="course-card">
+                            <h2 class="course-title">
+                                <i class="fas fa-book"></i>
+                                {{ course.title }}
+                            </h2>
+                            {% if course.lesson_set.all %}
+                                <ul class="lessons-list">
+                                    {% for lesson in course.lesson_set.all %}
+                                        <li class="lesson-item">
+                                            <span class="lesson-title">{{ lesson.title }}</span>
+                                            <a href="{% url 'learning:exercise_list' lesson.id %}" class="lesson-link">
+                                                Go to Exercises <i class="fas fa-arrow-right"></i>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <div class="no-lessons">No lessons available in this course.</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-book-open"></i>
+                    <p>You are not enrolled in any courses yet.</p>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+</div>
+{% endblock %}

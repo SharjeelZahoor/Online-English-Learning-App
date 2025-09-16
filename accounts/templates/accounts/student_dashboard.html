@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -309,99 +310,6 @@
             color: var(--primary-dark);
         }
         
-        .progress-container {
-            margin-top: 15px;
-        }
-        
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-        
-        .progress-bar {
-            height: 8px;
-            background-color: var(--border);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .progress {
-            height: 100%;
-            background-color: var(--primary-color);
-            border-radius: 4px;
-        }
-        
-        .recent-activity {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            margin-bottom: 30px;
-        }
-        
-        .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .section-title i {
-            margin-right: 10px;
-            color: var(--primary-color);
-        }
-        
-        .activity-list {
-            list-style: none;
-        }
-        
-        .activity-item {
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-        }
-        
-        .activity-item:last-child {
-            border-bottom: none;
-        }
-        
-        .activity-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: rgba(159, 122, 234, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-        }
-        
-        .activity-icon i {
-            font-size: 16px;
-            color: var(--primary-color);
-        }
-        
-        .activity-content {
-            flex: 1;
-        }
-        
-        .activity-title {
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 3px;
-        }
-        
-        .activity-time {
-            font-size: 12px;
-            color: var(--text-light);
-        }
-        
         .footer {
             background-color: var(--secondary-color);
             color: white;
@@ -473,29 +381,25 @@
     
     <div class="container">
         <nav class="sidebar">
-            <a href="#" class="nav-link active">
+            <a href="{% url 'accounts:student_dashboard' %}" class="nav-link active">
                 <i class="fas fa-tachometer-alt"></i>
                 Dashboard
             </a>
-            <a href="#" class="nav-link">
+            <a href="{% url 'accounts:student_lessons' %}" class="nav-link">
                 <i class="fas fa-book-open"></i>
                 View Lessons
             </a>
-            <a href="#" class="nav-link">
+            <a href="{% url 'accounts:student_assignments' %}" class="nav-link">
                 <i class="fas fa-file-alt"></i>
                 Submit Assignments
             </a>
-            <a href="#" class="nav-link">
+            <a href="{% url 'accounts:student_progress' %}" class="nav-link">
                 <i class="fas fa-chart-line"></i>
                 Track Progress
             </a>
-            <a href="#" class="nav-link">
-                <i class="fas fa-video"></i>
-                Live Classes
-            </a>
-            <a href="#" class="nav-link">
-                <i class="fas fa-certificate"></i>
-                Certificates
+            <a href="{% url 'accounts:student_forum' %}" class="nav-link">
+                <i class="fas fa-comments"></i>
+                Peer Forum
             </a>
             <a href="{% url 'accounts:logout' %}" class="nav-link logout">
                 <i class="fas fa-sign-out-alt"></i>
@@ -508,202 +412,56 @@
                 <h1>Welcome, Student!</h1>
                 <p>Continue your English learning journey with interactive lessons and assignments.</p>
             </div>
-            
+
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-book"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>4</h3>
-                        <p>Enrolled Courses</p>
-                    </div>
+                    <div class="stat-icon"><i class="fas fa-book"></i></div>
+                    <div class="stat-content"><h3>{{ courses.count }}</h3><p>Enrolled Courses</p></div>
                 </div>
-                
                 <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>24</h3>
-                        <p>Lessons Completed</p>
-                    </div>
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-content"><h3>{{ lessons.count }}</h3><p>Lessons Available</p></div>
                 </div>
-                
                 <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-tasks"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>3</h3>
-                        <p>Assignments Due</p>
-                    </div>
+                    <div class="stat-icon"><i class="fas fa-tasks"></i></div>
+                    <div class="stat-content"><h3>3</h3><p>Assignments Due</p></div>
                 </div>
-                
                 <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-trophy"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>72%</h3>
-                        <p>Overall Progress</p>
-                    </div>
+                    <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+                    <div class="stat-content"><h3>72%</h3><p>Overall Progress</p></div>
                 </div>
             </div>
             
             <div class="dashboard-grid">
-                <!-- Courses -->
                 <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-book"></i>
-                        </div>
-                        <h3 class="card-title">Courses</h3>
-                    </div>
+                    <div class="card-header"><div class="card-icon"><i class="fas fa-book"></i></div><h3 class="card-title">Courses</h3></div>
                     <p class="card-description">View all your enrolled courses.</p>
                     <a href="{% url 'learning:course_list' %}" class="card-action">View Courses →</a>
                 </div>
-                
-                <!-- Lessons -->
+
                 <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        <h3 class="card-title">Lessons</h3>
-                    </div>
-                    <p class="card-description">Access lessons for your courses and track progress.</p>
-                    {% if courses %}
-                        {% for course in courses %}
-                            <a href="{% url 'learning:lesson_list' course.id %}" class="card-action">{{ course.name }} Lessons →</a><br>
-                        {% endfor %}
-                    {% else %}
-                        <p>No courses enrolled.</p>
-                    {% endif %}
+                    <div class="card-header"><div class="card-icon"><i class="fas fa-book-open"></i></div><h3 class="card-title">Lessons</h3></div>
+                    <p class="card-description">Access lessons and exercises for your courses.</p>
+                    <a href="{% url 'accounts:student_lessons' %}" class="card-action">Go to Lessons →</a>
                 </div>
-                
-                <!-- Exercises -->
+
                 <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-pencil-alt"></i>
-                        </div>
-                        <h3 class="card-title">Exercises</h3>
-                    </div>
-                    <p class="card-description">Complete exercises to improve your English skills.</p>
-                    {% if lessons %}
-                        {% for lesson in lessons %}
-                            <a href="{% url 'learning:exercise_list' lesson.id %}" class="card-action">{{ lesson.title }} Exercises →</a><br>
-                        {% endfor %}
-                    {% else %}
-                        <p>No lessons available.</p>
-                    {% endif %}
+                    <div class="card-header"><div class="card-icon"><i class="fas fa-file-alt"></i></div><h3 class="card-title">Assignments</h3></div>
+                    <p class="card-description">Submit your assignments and get feedback.</p>
+                    <a href="{% url 'accounts:student_assignments' %}" class="card-action">Submit Assignments →</a>
                 </div>
-                
-                <!-- View Lessons -->
+
                 <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        <h3 class="card-title">Continue Learning</h3>
-                    </div>
-                    <p class="card-description">Access your course materials and continue learning at your own pace.</p>
-                    <div class="progress-container">
-                        <div class="progress-label">
-                            <span>Current Course Progress</span>
-                            <span>65%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress" style="width: 65%;"></div>
-                        </div>
-                    </div>
-                    <a href="#" class="card-action">Continue Learning →</a>
+                    <div class="card-header"><div class="card-icon"><i class="fas fa-chart-line"></i></div><h3 class="card-title">Progress</h3></div>
+                    <p class="card-description">Track your learning progress over time.</p>
+                    <a href="{% url 'accounts:student_progress' %}" class="card-action">View Progress →</a>
                 </div>
-                
-                <!-- Submit Assignments -->
+
                 <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-file-alt"></i>
-                        </div>
-                        <h3 class="card-title">Submit Assignments</h3>
-                    </div>
-                    <p class="card-description">Complete and submit your assignments to get feedback from your teachers.</p>
-                    <div class="progress-container">
-                        <div class="progress-label">
-                            <span>Pending Assignments</span>
-                            <span>3</span>
-                        </div>
-                    </div>
-                    <a href="#" class="card-action">View Assignments →</a>
+                    <div class="card-header"><div class="card-icon"><i class="fas fa-comments"></i></div><h3 class="card-title">Peer Forum</h3></div>
+                    <p class="card-description">Discuss lessons and interact with peers.</p>
+                    <a href="{% url 'accounts:student_forum' %}" class="card-action">Go to Forum →</a>
                 </div>
-                
-                <!-- Track Progress -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3 class="card-title">Track Progress</h3>
-                    </div>
-                    <p class="card-description">Monitor your learning progress and see how you're improving over time.</p>
-                    <div class="progress-container">
-                        <div class="progress-label">
-                            <span>Overall Progress</span>
-                            <span>72%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress" style="width: 72%;"></div>
-                        </div>
-                    </div>
-                    <a href="#" class="card-action">View Detailed Report →</a>
-                </div>
-            </div>
-            
-            <div class="recent-activity">
-                <h2 class="section-title">
-                    <i class="fas fa-history"></i>
-                    Recent Activity
-                </h2>
-                <ul class="activity-list">
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Completed lesson "Grammar Basics"</div>
-                            <div class="activity-time">2 hours ago</div>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-file-alt"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Submitted assignment "Vocabulary Exercise"</div>
-                            <div class="activity-time">Yesterday</div>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-video"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Attended live session "Conversation Practice"</div>
-                            <div class="activity-time">2 days ago</div>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Earned certificate for "Business English" course</div>
-                            <div class="activity-time">3 days ago</div>
-                        </div>
-                    </li>
-                </ul>
             </div>
         </main>
     </div>

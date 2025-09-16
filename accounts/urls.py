@@ -27,8 +27,13 @@ urlpatterns = [
     path("student-progress/", views.student_progress, name="student_progress"),
     path("live-sessions/", views.live_sessions, name="live_sessions"),
     
+    #student related views
     path("student/dashboard/", views.student_dashboard, name="student_dashboard"),
-   
+    path("student/lessons/", views.student_lessons, name="student_lessons"),
+    path("student/assignments/", views.student_assignments, name="student_assignments"),
+    path("student/progress/", views.student_progress, name="student_progress"),
+    path("student/forum/", views.student_forum, name="student_forum"),
+
     
 
 

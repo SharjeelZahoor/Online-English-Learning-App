@@ -181,8 +181,34 @@ def live_sessions(request):
     return render(request, "accounts/live_sessions.html")
 
 
+# Student Dashboard
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from learning.models import Course, Lesson
+
 @login_required
 def student_dashboard(request):
-    return render(request, "accounts/student_dashboard.html")
+    courses = Course.objects.all()
+    lessons = Lesson.objects.all()
+    return render(request, "accounts/student_dashboard.html", {
+        "courses": courses,
+        "lessons": lessons,
+    })
 
+@login_required
+def student_lessons(request):
+    courses = Course.objects.prefetch_related("lesson_set").all()
+    return render(request, "accounts/student_lessons.html", {"courses": courses})
+
+@login_required
+def student_assignments(request):
+    return render(request, "accounts/student_assignments.html")
+
+@login_required
+def student_progress(request):
+    return render(request, "accounts/student_myprogress.html")
+
+@login_required
+def student_forum(request):
+    return render(request, "accounts/student_forum.html")
 
